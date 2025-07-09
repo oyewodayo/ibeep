@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Calendar, Clock, User, Mail, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -53,10 +52,12 @@ const ConsultationScheduler = ({ isOpen, onClose }: ConsultationSchedulerProps) 
   ];
 
   const consultationTypes = [
-    { value: 'general', label: 'General Business Consultation' },
-    { value: 'market-entry', label: 'Nigerian Market Entry' },
-    { value: 'operations', label: 'Strategic Operations' },
-    { value: 'management', label: 'Business Management' },
+    { value: 'general', label: 'General Technical Consultation' },
+    { value: 'web-development', label: 'Web Development Project' },
+    { value: 'mobile-development', label: 'Mobile App Development' },
+    { value: 'cloud-devops', label: 'Cloud & DevOps Solutions' },
+    { value: 'ai-ml', label: 'AI/ML Development' },
+    { value: 'mentorship', label: 'Developer Mentorship Program' },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -82,9 +83,9 @@ const ConsultationScheduler = ({ isOpen, onClose }: ConsultationSchedulerProps) 
   const consultationTypeLabel = consultationTypes.find(t => t.value === formData.consultationType)?.label;
 
   // Create email content
-  const subject = `Consultation Request: ${formData.name} - ${consultationTypeLabel}`;
+  const subject = `Technical Consultation Request: ${formData.name} - ${consultationTypeLabel}`;
   
-  let body = `Dear Support Team,\n\n`;
+  let body = `Dear iBeep Development Team,\n\n`;
   body += `I would like to schedule a ${consultationTypeLabel} consultation.\n\n`;
   body += `Here are my details:\n`;
   body += `- Name: ${formData.name}\n`;
@@ -92,8 +93,8 @@ const ConsultationScheduler = ({ isOpen, onClose }: ConsultationSchedulerProps) 
   body += `- Company: ${formData.company || 'Not provided'}\n`;
   body += `- Preferred Date: ${formattedDate}\n`;
   body += `- Preferred Time: ${selectedTimeLabel}\n\n`;
-  body += `Additional Information:\n${formData.message || 'None'}\n\n`;
-  body += `Looking forward to your response.\n\nBest regards,\n${formData.name}`;
+  body += `Project Details:\n${formData.message || 'None provided'}\n\n`;
+  body += `Looking forward to discussing my project with your team.\n\nBest regards,\n${formData.name}`;
 
   // Encode for URL
   const encodedSubject = encodeURIComponent(subject);
@@ -128,7 +129,7 @@ const ConsultationScheduler = ({ isOpen, onClose }: ConsultationSchedulerProps) 
     
     toast({
       title: "Ready to Send!",
-      description: "Your email client should open with a pre-filled request. Please review and send to complete your booking.",
+      description: "Your email client should open with a pre-filled consultation request. Please review and send to complete your booking.",
     });
 
     // Reset form
@@ -172,7 +173,7 @@ const ConsultationScheduler = ({ isOpen, onClose }: ConsultationSchedulerProps) 
       ),
       description: (
         <div className="space-y-2">
-          <p>Please send an email manually to <strong>yourcompany@example.com</strong> with the following details:</p>
+          <p>Please send an email manually to <strong>info@iBeepbm.com</strong> with the following details:</p>
           <pre className="text-xs p-2 bg-gray-100 rounded">
             {JSON.stringify(formDataForManual, null, 2)}
           </pre>
@@ -194,7 +195,7 @@ const ConsultationScheduler = ({ isOpen, onClose }: ConsultationSchedulerProps) 
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl dark:text-white font-light text-slate-900">
-            Schedule Your Consultation
+            Schedule Your Technical Consultation
           </DialogTitle>
         </DialogHeader>
 
@@ -329,7 +330,7 @@ const ConsultationScheduler = ({ isOpen, onClose }: ConsultationSchedulerProps) 
 
           <div className="space-y-2">
             <label htmlFor="message" className="text-sm font-medium text-slate-900">
-              Tell us about your business challenges
+              Tell us about your project
             </label>
             <div className="relative">
               <MessageSquare className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
@@ -340,7 +341,7 @@ const ConsultationScheduler = ({ isOpen, onClose }: ConsultationSchedulerProps) 
                 onChange={handleChange}
                 rows={4}
                 className="pl-10"
-                placeholder="What specific challenges are you facing? This helps us prepare for our consultation..."
+                placeholder="What type of software do you want to build? What technologies are you considering? What's your timeline and budget range?"
               />
             </div>
           </div>

@@ -40,10 +40,10 @@ const ContactSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
-            Let's Talk
+            Let's Build Together
           </h2>
           <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto font-light leading-relaxed">
-            Ready to transform your business? Let's discuss how we can work together to achieve your goals.
+            Ready to transform your ideas into powerful software? Let's discuss how we can bring your vision to life.
           </p>
           
           {/* Add consultation scheduler CTA */}
@@ -53,7 +53,7 @@ const ContactSection = () => {
               className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white px-8 py-3 text-lg font-medium group transition-all duration-300"
             >
               <Calendar className="mr-2 w-5 h-5" />
-              Schedule a Consultation
+              Schedule a Technical Consultation
               <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </Button>
           </div>
@@ -125,7 +125,7 @@ const ContactSection = () => {
 
               <div className="space-y-2">
                 <label htmlFor="message" className="text-sm font-medium text-slate-900 dark:text-slate-300">
-                  Message *
+                  Project Details *
                 </label>
                 <div className="relative">
                   <MessageSquare className="absolute left-3 top-3 w-4 h-4 text-slate-400 dark:text-slate-500" />
@@ -137,7 +137,7 @@ const ContactSection = () => {
                     onChange={handleChange}
                     rows={5}
                     className="pl-10 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-blue-600 dark:focus:border-blue-500"
-                    placeholder="Tell us about your business and how we can help..."
+                    placeholder="Tell us about your project requirements, preferred technologies, timeline, and budget..."
                   />
                 </div>
               </div>
@@ -160,29 +160,29 @@ const ContactSection = () => {
                 <div className="flex items-start">
                   <div className="w-2 h-2 bg-blue-600 dark:bg-blue-400 rounded-full mt-2 mr-4"></div>
                   <div>
-                    <h4 className="font-medium text-slate-900 dark:text-white mb-1">Proven Track Record</h4>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm font-light">Successfully managed 50+ businesses across various industries</p>
+                    <h4 className="font-medium text-slate-900 dark:text-white mb-1">Battle-Tested Code</h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm font-light">Production-ready applications built with industry best practices</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <div className="w-2 h-2 bg-blue-600 dark:bg-blue-400 rounded-full mt-2 mr-4"></div>
                   <div>
-                    <h4 className="font-medium text-slate-900 dark:text-white mb-1">Local Expertise</h4>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm font-light">Deep understanding of Nigerian and West African markets</p>
+                    <h4 className="font-medium text-slate-900 dark:text-white mb-1">Full-Stack Expertise</h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm font-light">Complete technical team covering all aspects of software development</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <div className="w-2 h-2 bg-blue-600 dark:bg-blue-400 rounded-full mt-2 mr-4"></div>
                   <div>
-                    <h4 className="font-medium text-slate-900 dark:text-white mb-1">Flexible Engagement</h4>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm font-light">Multiple partnership models to fit your specific needs</p>
+                    <h4 className="font-medium text-slate-900 dark:text-white mb-1">Flexible Tech Stack</h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm font-light">We work with your preferred technologies or recommend the best fit</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <div className="w-2 h-2 bg-blue-600 dark:bg-blue-400 rounded-full mt-2 mr-4"></div>
                   <div>
-                    <h4 className="font-medium text-slate-900 dark:text-white mb-1">Hands-On Approach</h4>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm font-light">We don't just advise - we execute alongside your team</p>
+                    <h4 className="font-medium text-slate-900 dark:text-white mb-1">End-to-End Support</h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm font-light">From development to deployment and ongoing maintenance</p>
                   </div>
                 </div>
               </div>
@@ -191,10 +191,10 @@ const ContactSection = () => {
             <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-sm p-8">
               <h3 className="text-xl font-medium text-slate-900 dark:text-white mb-4">Ready to Get Started?</h3>
               <p className="text-slate-600 dark:text-slate-400 mb-6 font-light">
-                Schedule a discovery call to discuss your business challenges and explore how we can help you achieve sustainable growth.
+                Schedule a technical consultation to discuss your project requirements and explore how we can help you build exceptional software.
               </p>
               <div className="space-y-3 text-sm text-slate-600 dark:text-slate-400 font-light">
-                <div>📧info@iBeepbm.com</div>
+                <div>📧 info@iBeepbm.com</div>
                 <div>📱 +2348087396740</div>
                 <div>🌍 Lagos, Nigeria</div>
               </div>

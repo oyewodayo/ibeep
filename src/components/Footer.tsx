@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Mail, Phone, MapPin, ArrowRight, Linkedin, Twitter } from 'lucide-react';
 
@@ -9,11 +8,11 @@ const Footer = () => {
     {
       title: 'Services',
       links: [
-        { label: 'OEM Representation', href: '#services' },
-        { label: 'Operations Optimization', href: '#services' },
-        { label: 'Financial Planning', href: '#services' },
-        { label: 'Business Management', href: '#services' },
-        { label: 'Market Analysis', href: '#services' },
+        { label: 'Web Development', href: '#services' },
+        { label: 'Mobile Development', href: '#services' },
+        { label: 'Cloud & DevOps', href: '#services' },
+        { label: 'AI/ML Solutions', href: '#services' },
+        { label: 'Technical Consulting', href: '#services' },
       ]
     },
     {
@@ -21,17 +20,17 @@ const Footer = () => {
       links: [
         { label: 'About Us', href: '#who-we-serve' },
         { label: 'Our Process', href: '#how-we-work' },
-        { label: 'Case Studies', href: '#case-studies' },
+        { label: 'Technologies', href: '#services' },
         { label: 'Contact', href: '#contact' },
       ]
     },
     {
       title: 'Resources',
       links: [
-        { label: 'Business Insights', href: '#' },
-        { label: 'Industry Reports', href: '#' },
-        { label: 'Success Stories', href: '#case-studies' },
-        { label: 'Consultation', href: '#contact' },
+        { label: 'Developer Mentorship', href: '#' },
+        { label: 'Tech Stack Guide', href: '#' },
+        { label: 'Project Portfolio', href: '#' },
+        { label: 'Free Consultation', href: '#contact' },
       ]
     }
   ];
@@ -46,8 +45,8 @@ const Footer = () => {
             <div>
               <h3 className="text-3xl font-light text-white mb-4">iBeep</h3>
               <p className="text-slate-300 dark:text-slate-400 text-lg leading-relaxed max-w-md">
-                Empowering businesses across West Africa with strategic management solutions 
-                that drive sustainable growth and operational excellence.
+                Building first-class, battle-tested applications for businesses across every sector. 
+                Your trusted technical partner for software development excellence.
               </p>
             </div>
             
@@ -116,7 +115,7 @@ const Footer = () => {
           <div className="max-w-md">
             <h4 className="text-xl font-medium text-white mb-3">Stay Updated</h4>
             <p className="text-slate-300 dark:text-slate-400 mb-6">
-              Get the latest insights on business management and growth strategies.
+              Get the latest insights on software development trends and best practices.
             </p>
             <div className="flex gap-3">
               <input
@@ -135,7 +134,7 @@ const Footer = () => {
         {/* Bottom bar */}
         <div className="border-t border-slate-800 dark:border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-slate-400 text-sm">
-            © {currentYear} iBeep Business Management. All rights reserved.
+            © {currentYear} iBeep Software Development. All rights reserved.
           </div>
           <div className="flex gap-6 text-sm">
             <a href="#" className="text-slate-400 hover:text-blue-400 transition-colors">

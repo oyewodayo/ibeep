@@ -91,44 +91,44 @@ const AnimatedChallengeCards = () => {
 
   const cardData = [
     {
-      challenge: 'Lack of structure',
-      solution: 'Business systems that work',
-      icon: '🏗️',
+      challenge: 'No technical team',
+      solution: 'Dedicated development experts',
+      icon: '👥',
       color: 'from-blue-500 to-indigo-600',
       hoverColor: 'from-blue-600 to-indigo-700'
     },
     {
-      challenge: 'Poor performance',
-      solution: 'Results-focused management',
-      icon: '📊',
+      challenge: 'Outdated technology',
+      solution: 'Modern, scalable solutions',
+      icon: '🚀',
       color: 'from-emerald-500 to-teal-600',
       hoverColor: 'from-emerald-600 to-teal-700'
     },
     {
-      challenge: 'Operational chaos',
-      solution: 'Efficient, predictable operations',
-      icon: '⚙️',
+      challenge: 'Slow development cycles',
+      solution: 'Agile, rapid delivery',
+      icon: '⚡',
       color: 'from-purple-500 to-violet-600',
       hoverColor: 'from-purple-600 to-violet-700'
     },
     {
-      challenge: 'Stagnant revenue',
-      solution: 'Growth roadmap and execution',
-      icon: '📈',
+      challenge: 'High development costs',
+      solution: 'Cost-effective solutions',
+      icon: '💰',
       color: 'from-amber-500 to-orange-600',
       hoverColor: 'from-amber-600 to-orange-700'
     },
     {
-      challenge: 'Need for trusted local presence',
-      solution: 'Local expertise and hands-on management',
-      icon: '🌍',
+      challenge: 'Poor code quality',
+      solution: 'Battle-tested, clean code',
+      icon: '🔧',
       color: 'from-rose-500 to-pink-600',
       hoverColor: 'from-rose-600 to-pink-700'
     },
     {
-      challenge: 'Burnout from managing everything alone',
-      solution: 'A business partner, not just a vendor',
-      icon: '🤝',
+      challenge: 'Limited technical expertise',
+      solution: 'Full-stack development team',
+      icon: '🎯',
       color: 'from-cyan-500 to-blue-600',
       hoverColor: 'from-cyan-600 to-blue-700'
     }
@@ -188,13 +188,13 @@ const AnimatedChallengeCards = () => {
         {/* Header Section */}
         <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-6">
-            <span className="text-2xl">🎯</span>
+            <span className="text-2xl">💻</span>
           </div>
           <h2 className="text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 bg-clip-text text-transparent dark:from-white dark:via-blue-200 dark:to-indigo-200 mb-6">
-            Your Challenges, Our Solutions
+            Your Challenges, Our Code
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Discover how <span className="font-semibold text-blue-600 dark:text-blue-400">iBeep</span> transforms common business hurdles into stepping stones for unprecedented success.
+            Discover how <span className="font-semibold text-blue-600 dark:text-blue-400">iBeep</span> transforms common development challenges into powerful software solutions.
           </p>
         </div>
 
@@ -273,7 +273,7 @@ const AnimatedChallengeCards = () => {
         <div className={`mt-20 text-center transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
          
           <a href='#contact' className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
-            Start Your Transformation Journey
+            Start Your Development Journey
           </a>
         </div>
       </div>
