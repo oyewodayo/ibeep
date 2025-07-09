@@ -7,9 +7,9 @@ const WhoWeServe = () => {
   const clientTypes = [
     {
       icon: Rocket,
-      title: 'Local Entrepreneurs',
-      description: 'Ambitious founders and startup teams looking to scale their businesses in challenging markets.',
-      characteristics: ['Early to growth stage', 'Local market focus', 'Scaling challenges'],
+      title: 'Startups & Entrepreneurs',
+      description: 'Early-stage companies and entrepreneurs who need a technical team to build their MVP or scale their existing product.',
+      characteristics: ['MVP development', 'Technical co-founder', 'Rapid prototyping'],
       color: 'from-blue-500 to-cyan-500',
       bgPattern: 'bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/30',
       iconBg: 'bg-blue-100 dark:bg-blue-900/50',
@@ -18,9 +18,9 @@ const WhoWeServe = () => {
     },
     {
       icon: Building,
-      title: 'Business Asset Owners',
-      description: 'Established business owners seeking professional management to optimize operations and growth.',
-      characteristics: ['Established revenue', 'Operational complexity', 'Growth optimization'],
+      title: 'Established Businesses',
+      description: 'Companies looking to digitize operations, modernize legacy systems, or expand their digital presence.',
+      characteristics: ['Digital transformation', 'Legacy modernization', 'System integration'],
       color: 'from-emerald-500 to-teal-500',
       bgPattern: 'bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30',
       iconBg: 'bg-emerald-100 dark:bg-emerald-900/50',
@@ -29,9 +29,9 @@ const WhoWeServe = () => {
     },
     {
       icon: Globe2,
-      title: 'Foreign Companies',
-      description: 'International businesses entering or expanding within the Nigerian and West African markets.',
-      characteristics: ['Market entry', 'Local partnerships', 'Regulatory navigation'],
+      title: 'Global Companies',
+      description: 'International organizations needing local technical expertise or wanting to establish development teams in Nigeria.',
+      characteristics: ['Remote development', 'Cost optimization', 'Local expertise'],
       color: 'from-purple-500 to-indigo-500',
       bgPattern: 'bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-950/30 dark:to-indigo-950/30',
       iconBg: 'bg-purple-100 dark:bg-purple-900/50',
@@ -63,7 +63,7 @@ const WhoWeServe = () => {
           </h2>
           
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            We partner with <span className="font-semibold text-gray-800 dark:text-gray-200">visionary leaders</span> and organizations at various stages of their business journey, providing tailored solutions for sustainable growth.
+            We partner with <span className="font-semibold text-gray-800 dark:text-gray-200">forward-thinking organizations</span> across all sectors, from startups to enterprises, providing tailored software solutions.
           </p>
 
           {/* Decorative line */}
@@ -86,6 +86,9 @@ const WhoWeServe = () => {
                 className={`group relative bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-lg hover:shadow-2xl dark:shadow-gray-900/50 dark:hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 ${client.bgPattern} border-2 ${client.accent} overflow-hidden ${client.hoverBg}`}
                 onMouseEnter={() => setHoveredCard(index)}
                 onMouseLeave={() => setHoveredCard(null)}
+                role="article"
+                tabIndex={0}
+                aria-label={`Client type: ${client.title}, Description: ${client.description}`}
               >
                 {/* Card background gradient overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${client.color} opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition-opacity duration-500`}></div>
@@ -138,7 +141,7 @@ const WhoWeServe = () => {
                 {/* Call to action */}
                 <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700 relative z-10">
                   <button className={`group/btn flex items-center text-sm font-semibold bg-gradient-to-r ${client.color} bg-clip-text text-transparent hover:opacity-80 transition-all duration-300`}>
-                    Learn More About Our Services
+                    Discuss Your Project
                     <ArrowRight className={`w-4 h-4 ml-2 transform group-hover/btn:translate-x-1 transition-transform bg-gradient-to-r ${client.color} bg-clip-text text-transparent`} />
                   </button>
                 </div>
@@ -153,13 +156,13 @@ const WhoWeServe = () => {
         {/* Bottom CTA Section */}
         <div className="text-center mt-16 p-8 bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-800 dark:to-gray-900 rounded-3xl shadow-2xl dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-700">
           <h3 className="text-2xl font-bold text-white mb-4">
-            Ready to Partner With Us?
+            Ready to Build Something Amazing?
           </h3>
           <p className="text-gray-300 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
-            Join hundreds of successful businesses who have transformed their operations with our expertise.
+            Join hundreds of successful companies who have transformed their business with our software solutions.
           </p>
           <a href='#contact' className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl dark:shadow-blue-500/25">
-            Start Your Journey Today
+            Start Your Project Today
           </a>
         </div>
       </div>

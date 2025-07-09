@@ -11,7 +11,7 @@ const Hero = () => {
       id: 0,
       content: (
         <div className="relative w-full h-full flex items-center justify-center">
-          {/* Your existing animated graphics */}
+          {/* Animated tech graphics */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div 
               className="w-80 h-80 border-2 border-blue-200 dark:border-blue-800 rounded-full opacity-30"
@@ -91,7 +91,7 @@ const Hero = () => {
           </div>
         </div>
       ),
-      alt: "Animated business visualization"
+      alt: "Animated software development visualization"
     },
     {
       id: 1,
@@ -99,13 +99,13 @@ const Hero = () => {
         <div className="relative w-full h-full flex items-center justify-center">
           <img 
             src="/images/1.jpg" 
-            alt="Team collaboration"
+            alt="Development team collaboration"
             className="absolute inset-0 w-full h-full object-cover rounded-lg opacity-90"
           />
           <div className="absolute inset-0 bg-blue-600/20 dark:bg-blue-900/30 backdrop-blur-sm rounded-lg"></div>
           <div className="relative z-10 p-8 text-center">
-            <h3 className="text-2xl font-medium text-white mb-4">Collaborative Approach</h3>
-            <p className="text-blue-100 font-light">We work hand-in-hand with your team to implement solutions</p>
+            <h3 className="text-2xl font-medium text-white mb-4">Expert Development Team</h3>
+            <p className="text-blue-100 font-light">We work as your dedicated technical team to build exceptional software</p>
           </div>
         </div>
       )
@@ -116,13 +116,13 @@ const Hero = () => {
         <div className="relative w-full h-full flex items-center justify-center">
           <img 
             src="/images/2.jpg" 
-            alt="Business growth chart"
+            alt="Code quality and performance"
             className="absolute inset-0 w-full h-full object-cover rounded-lg opacity-90"
           />
           <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm rounded-lg"></div>
           <div className="relative z-10 p-8 text-center">
-            <h3 className="text-2xl font-medium text-white mb-4">Measurable Results</h3>
-            <p className="text-slate-100 font-light">Trackable metrics to demonstrate your business growth</p>
+            <h3 className="text-2xl font-medium text-white mb-4">Battle-Tested Solutions</h3>
+            <p className="text-slate-100 font-light">First-class applications built with proven technologies and best practices</p>
           </div>
         </div>
       )
@@ -164,15 +164,15 @@ const Hero = () => {
             }`}>
               <div className="mb-8 mt-5">
                 <span className="inline-block px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium mb-6">
-                  Business Management Excellence
+                  Software Development Excellence
                 </span>
               </div>
               
               <h1 className="text-4xl md:text-6xl lg:text-6xl font-extrabold mb-8 leading-tight tracking-tight">
-                <span className="block text-slate-900 dark:text-white mb-2">Managing the</span>
-                <span className="block text-blue-600 dark:text-blue-400 font-medium bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600 bg-clip-text text-transparent">business.</span>
+                <span className="block text-slate-900 dark:text-white mb-2">Building the</span>
+                <span className="block text-blue-600 dark:text-blue-400 font-medium bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600 bg-clip-text text-transparent">software.</span>
                 <span className="block text-slate-900 dark:text-white mb-2">Empowering the</span>
-                <span className="block text-blue-600 dark:text-blue-400 font-medium bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600 bg-clip-text text-transparent">founder.</span>
+                <span className="block text-blue-600 dark:text-blue-400 font-medium bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600 bg-clip-text text-transparent">business.</span>
               </h1>
             </div>
 
@@ -180,8 +180,8 @@ const Hero = () => {
               isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
             }`}>
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-12 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
-                We partner with entrepreneurs and business owners to navigate complex markets, 
-                optimize operations, and unlock sustainable growth through strategic management.
+                We build first-class, battle-tested applications for every sector. 
+                Let us be your technical team while you focus on growing your business.
               </p>
             </div>
 
@@ -193,7 +193,7 @@ const Hero = () => {
                   href="#contact"
                   className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-8 py-4 rounded-sm font-medium text-lg transition-all duration-300 transform hover:scale-105 group shadow-lg hover:shadow-xl"
                 >
-                  Let's Manage Together
+                  Start Your Project
                   <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </a>
                 
@@ -201,7 +201,7 @@ const Hero = () => {
                   href="#services"
                   className="inline-flex items-center gap-3 border-2 border-slate-300 dark:border-slate-600 hover:border-blue-600 dark:hover:border-blue-400 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 px-8 py-4 rounded-sm font-medium text-lg transition-all duration-300 transform hover:scale-105 group"
                 >
-                  Learn More
+                  Our Services
                   <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-1" />
                 </a>
               </div>

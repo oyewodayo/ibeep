@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Building2, Globe, Settings, Users } from 'lucide-react';
+import { Code, Smartphone, Cloud, Brain } from 'lucide-react';
 
 const Services = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -10,30 +10,30 @@ const Services = () => {
 
   const services = [
     {
-      icon: Building2,
-      title: 'Business Management',
-      description: 'Comprehensive operational oversight and strategic execution to optimize your business performance and drive sustainable growth.',
+      icon: Code,
+      title: 'Web Development',
+      description: 'Full-stack web applications using modern frameworks like React, Vue, Angular, Node.js, Python, and more. From simple websites to complex enterprise solutions.',
       gradient: 'from-blue-500 to-blue-700',
       bgGradient: 'from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900',
     },
     {
-      icon: Globe,
-      title: 'Nigerian Market Entry',
-      description: 'Navigate the complexities of the Nigerian market with expert guidance on regulations, partnerships, and local business practices.',
+      icon: Smartphone,
+      title: 'Mobile Development',
+      description: 'Native iOS and Android apps, cross-platform solutions with React Native and Flutter. User-friendly mobile experiences that engage your customers.',
       gradient: 'from-emerald-500 to-emerald-700',
       bgGradient: 'from-emerald-50 to-emerald-100 dark:from-emerald-950 dark:to-emerald-900',
     },
     {
-      icon: Settings,
-      title: 'OEM Representation',
-      description: 'Local market execution partner for global manufacturers. Licensing, compliance, sales, customer service. Tailored to energy, tech, FMCG, and industrial sectors.',
+      icon: Cloud,
+      title: 'Cloud & DevOps',
+      description: 'Complete deployment infrastructure management on AWS, Azure, Google Cloud. CI/CD pipelines, monitoring, scaling, and security best practices.',
       gradient: 'from-purple-500 to-purple-700',
       bgGradient: 'from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900',
     },
     {
-      icon: Users,
-      title: 'Advisory + Execution',
-      description: 'Beyond consultation - we roll up our sleeves and work alongside your team to implement strategies and achieve results.',
+      icon: Brain,
+      title: 'AI/ML Solutions',
+      description: 'Machine learning models, deep learning applications, AI integration, and data analytics. Transform your business with intelligent automation.',
       gradient: 'from-orange-500 to-orange-700',
       bgGradient: 'from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900',
     },
@@ -75,7 +75,7 @@ const Services = () => {
       id="services" 
       className="py-32 relative overflow-hidden min-h-screen"
     >
-      {/* Parallax Background Image */}
+      {/* Parallax Background */}
       <div 
         ref={parallaxRef}
         className="absolute inset-0 will-change-transform"
@@ -84,7 +84,7 @@ const Services = () => {
           backgroundImage: `url('data:image/svg+xml,${encodeURIComponent(`
             <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <pattern id="hexgrid" width="200" height="173.2" patternUnits="userSpaceOnUse">
+                <pattern id="techgrid" width="200" height="173.2" patternUnits="userSpaceOnUse">
                   <path d="M 100 0 L 150 43.3 L 150 129.9 L 100 173.2 L 50 129.9 L 50 43.3 Z" 
                         fill="none" stroke="rgba(59, 130, 246, 0.4)" stroke-width="2"/>
                   <circle cx="100" cy="86.6" r="8" fill="rgba(168, 85, 247, 0.3)"/>
@@ -94,16 +94,16 @@ const Services = () => {
                   <circle cx="150" cy="129.9" r="4" fill="rgba(139, 92, 246, 0.4)"/>
                 </pattern>
               </defs>
-              <rect width="100%" height="100%" fill="url(#hexgrid)"/>
+              <rect width="100%" height="100%" fill="url(#techgrid)"/>
             </svg>
           `)}')`,
           backgroundSize: '200px 173px'
         }}
       >
-        {/* Reduced gradient overlay for more visibility */}
+        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50/70 via-white/60 to-slate-50/70 dark:from-slate-900/80 dark:via-slate-800/70 dark:to-slate-900/80"></div>
         
-        {/* Large dramatic geometric shapes */}
+        {/* Tech-themed geometric shapes */}
         <div 
           className="absolute -top-32 -left-32 w-[600px] h-[600px] opacity-20"
           style={{
@@ -122,7 +122,7 @@ const Services = () => {
           }}
         ></div>
 
-        {/* Floating tech elements */}
+        {/* Code-like floating elements */}
         <div 
           className="absolute top-1/3 left-1/4 w-20 h-20 border-4 border-blue-400 opacity-60"
           style={{
@@ -145,7 +145,8 @@ const Services = () => {
           }}
         ></div>
       </div>
-      {/* Animated foreground elements with stronger movement */}
+
+      {/* Animated foreground elements */}
       <div className="absolute inset-0 opacity-40 pointer-events-none">
         <div 
           className="absolute top-20 left-10 w-80 h-80 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"
@@ -165,35 +166,6 @@ const Services = () => {
             transform: `translate(${scrollY * 0.12}px, ${scrollY * 0.1}px) scale(${1 + scrollY * 0.0004})`
           }}
         ></div>
-        
-        {/* Additional moving tech patterns */}
-        <div 
-          className="absolute top-10 right-1/4 opacity-30"
-          style={{
-            transform: `translate(${scrollY * 0.8}px, ${scrollY * 0.6}px)`
-          }}
-        >
-          <div className="w-32 h-32 border-2 border-dashed border-blue-400 rounded-lg transform rotate-45"></div>
-        </div>
-        
-        <div 
-          className="absolute bottom-20 right-10 opacity-25"
-          style={{
-            transform: `translate(${-scrollY * 0.7}px, ${scrollY * 0.4}px) rotate(${scrollY * 0.1}deg)`
-          }}
-        >
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-3 h-3 bg-purple-400 rounded-full"
-              style={{
-                top: `${i * 8}px`,
-                left: `${i * 12}px`,
-                opacity: 0.6 - (i * 0.1)
-              }}
-            ></div>
-          ))}
-        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -209,12 +181,12 @@ const Services = () => {
           <h2 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
             What We
             <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600 bg-clip-text text-transparent font-medium">
-              Deliver
+              Build
             </span>
           </h2>
           <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto font-light leading-relaxed">
-            We provide comprehensive business management services that bridge the gap 
-            between strategy and execution, turning vision into measurable results.
+            From web applications to AI solutions, we deliver battle-tested software 
+            that scales with your business across every industry.
           </p>
         </div>
 
@@ -305,13 +277,13 @@ const Services = () => {
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
         }`}>
           <p className="text-slate-600 dark:text-slate-400 mb-8 text-lg">
-            Ready to transform your business operations?
+            Ready to build your next software solution?
           </p>
           <a
             href="#contact"
             className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-2xl font-medium text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
           >
-            Start Your Journey
+            Start Your Project
             <div className="w-5 h-5 transform transition-transform duration-300 group-hover:translate-x-1">
               <div className="w-5 h-0.5 bg-white"></div>
               <div className="w-2 h-2 border-t-2 border-r-2 border-white transform rotate-45 -mt-1 ml-3"></div>

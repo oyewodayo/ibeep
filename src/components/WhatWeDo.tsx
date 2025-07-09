@@ -12,62 +12,63 @@ const WhatWeDo = () => {
   // Data for "What We Do" section
  const whatWeDoItems = [
     {
-      title: 'Process Audit & Redesign',
-      description: 'We start by evaluating how your business runs — from procurement and production to delivery and administration. We map your workflows, identify inefficiencies, and redesign for speed, simplicity, and control.',
-      icon: '✅'
+      title: 'Custom Software Development',
+      description: 'We build tailored applications from scratch using modern technologies. From web apps to mobile solutions, we create software that perfectly fits your business needs.',
+      icon: '💻'
     },
     {
-      title: 'Cost Optimization',
-      description: 'We cut unnecessary expenses through supplier renegotiation, logistics efficiency, utility management, and lean workforce planning — without compromising quality.',
-      icon: '💰'
+      title: 'Technology Consulting',
+      description: 'Not sure which tech stack to choose? We analyze your requirements and recommend the best technologies, frameworks, and architectures for your project.',
+      icon: '🔍'
     },
     {
-      title: 'System Implementation',
+      title: 'Cloud Infrastructure & DevOps',
       description: [
-        'We digitize your operations by deploying fit-for-purpose tools like:',
-        'Inventory and sales tracking systems',
-        'ERP or accounting software',
-        'CRM tools for customer management',
-        'HR systems for attendance and payroll',
-        'We also train your team to use them effectively.'
+        'We handle your entire deployment infrastructure:',
+        'Cloud setup and configuration (AWS, Azure, GCP)',
+        'CI/CD pipeline implementation',
+        'Monitoring, scaling, and security',
+        'Database management and optimization'
       ],
-      icon: '⚙️'
+      icon: '☁️'
     },
     {
-      title: 'Performance Management',
+      title: 'Mentorship & Training',
       description: [
-        'We design and implement simple KPI systems that help you:',
-        'Track what matters',
-        'Hold staff accountable',
-        'Drive continuous improvement'
+        'We offer comprehensive mentorship programs for aspiring developers in:',
+        'AI/ML and Deep Learning',
+        'Cloud technologies and DevOps',
+        'Mobile and Web development',
+        'Software engineering best practices'
       ],
-      icon: '📈'
+      icon: '🎓'
     },
   ];
 
   // Data for "How It Works" section
   const howItWorksSteps = [
-    'We Audit – Deep-dive into your operations and cost drivers',
-    'We Redesign – Propose a simplified, efficient operating model',
-    'We Implement – Help you execute process changes and install systems',
-    'We Monitor – Track results and continuously improve performance',
+    'Discovery – We understand your requirements, goals, and technical constraints',
+    'Planning – We design the architecture and choose the optimal tech stack',
+    'Development – We build your solution using agile methodologies',
+    'Deployment – We deploy and configure your application in production',
+    'Support – We provide ongoing maintenance and feature enhancements',
   ];
 
   // Data for "What You Get" section
   const whatYouGetBenefits = [
-    { benefit: 'Reduced Costs', outcome: 'Lower operational expenses, better margins', icon: '📉' },
-    { benefit: 'Faster Execution', outcome: 'Shorter turnaround times and improved delivery', icon: '⏱' },
-    { benefit: 'Data-Driven Decisions', outcome: 'Real-time visibility into performance', icon: '📊' },
-    { benefit: 'Scalable Systems', outcome: 'Processes that grow with your business', icon: '🔄' },
-    { benefit: 'Empowered Staff', outcome: 'Clear roles, accountability, and better morale', icon: '🤝' },
+    { benefit: 'High-Quality Code', outcome: 'Clean, maintainable, and well-documented code', icon: '🔧' },
+    { benefit: 'Faster Time to Market', outcome: 'Rapid development and deployment cycles', icon: '⚡' },
+    { benefit: 'Scalable Solutions', outcome: 'Applications that grow with your business', icon: '📈' },
+    { benefit: 'Technical Expertise', outcome: 'Access to experienced developers and architects', icon: '👨‍💻' },
+    { benefit: 'Ongoing Support', outcome: 'Continuous maintenance and feature updates', icon: '🛠️' },
   ];
 
   // Data for "Who This Is For" section
   const whoThisIsForItems = [
-    'FMCG companies with bottlenecks in production or distribution',
-    'Retail & wholesale businesses with poor inventory control',
-    'Services companies needing structure, speed, and visibility',
-    'Owners overwhelmed by day-to-day operations',
+    'Startups needing an MVP or technical co-founder',
+    'Businesses looking to digitize their operations',
+    'Companies wanting to modernize legacy systems',
+    'Organizations needing dedicated development teams',
   ];
 
   useEffect(() => {
@@ -142,20 +143,20 @@ const WhatWeDo = () => {
         {/* Introduction Section */}
         <div ref={addToSectionRefs} className="text-center mb-16 fade-in">
           <p className="text-sm font-semibold text-blue-600 uppercase tracking-wide mb-2">
-            ⚙ Business Improvement & Operational Efficiency
+            💻 Software Development & Technical Excellence
           </p>
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
-            “We don’t just make things work — <br className="hidden sm:inline" />we make them work better.”
+            "We don't just write code — <br className="hidden sm:inline" />we build solutions that work."
           </h2>
           <p className="mt-4 text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            At iBeep, we help businesses unlock higher performance by redesigning the way they operate — end to end. Whether you're battling high costs, staff inefficiencies, or inconsistent delivery, we step in to streamline operations, reduce waste, and improve output.
+            At iBeep, we specialize in creating first-class, battle-tested applications for every sector. Whether you need a technical team or want to enhance your existing capabilities, we deliver software that drives real business value.
           </p>
         </div>
 
         {/* What We Do Section */}
         <div ref={addToSectionRefs} className="mb-16 fade-in">
           <h3 className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-10">
-            🔍 What We Do
+            🚀 What We Do
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
             {whatWeDoItems.map((item, index) => (
@@ -182,7 +183,7 @@ const WhatWeDo = () => {
         {/* How It Works Section */}
         <div ref={addToSectionRefs} className="mb-16 fade-in">
           <h3 className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-10">
-            🧩 How It Works
+            ⚙️ How We Work
           </h3>
           <div className="relative">
             {/* Vertical Line */}
@@ -211,7 +212,7 @@ const WhatWeDo = () => {
         {/* What You Get Section */}
         <div ref={addToSectionRefs} className="mb-16 fade-in">
           <h3 className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-10">
-            🚀 What You Get
+            🎯 What You Get
           </h3>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 shadow-lg rounded-lg overflow-hidden">
@@ -244,7 +245,7 @@ const WhatWeDo = () => {
         {/* Who This Is For Section */}
         <div ref={addToSectionRefs} className="mb-16 fade-in">
           <h3 className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-10">
-            👥 Who This Is For
+            🎯 Who This Is For
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
             {whoThisIsForItems.map((item, index) => (
@@ -260,7 +261,7 @@ const WhatWeDo = () => {
         {/* Conclusion Section */}
         <div ref={addToSectionRefs} className="text-center fade-in">
           <p className="mt-8 text-2xl md:text-3xl font-semibold text-blue-700 dark:text-blue-400 max-w-4xl mx-auto leading-relaxed">
-            Whether you're looking to cut costs, scale up, or simply gain control — iBeep gives you the tools, structure, and leadership to make it happen.
+            Whether you need a complete technical team or want to enhance your existing capabilities — iBeep delivers the software solutions that power your success.
           </p>
         </div>
 

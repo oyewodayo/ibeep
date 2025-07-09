@@ -15,67 +15,67 @@ const WhyChooseiBeep = () => {
   const benefits = [
     {
       icon: Target,
-      title: 'Clarity & Control Over Your Business',
-      description: 'Get structured systems, documented processes, and performance dashboards that remove guesswork and give you full visibility into your business.',
+      title: 'Technical Excellence & Best Practices',
+      description: 'Get clean, maintainable code following industry standards, comprehensive testing, and documentation that ensures long-term success.',
       features: [
-        'Standard operating procedures (SOPs)',
-        'Financial discipline and reporting',
-        'Real-time insights and tracking'
+        'Clean architecture and design patterns',
+        'Comprehensive testing and CI/CD',
+        'Detailed documentation and code reviews'
       ],
       color: 'bg-blue-600',
     },
     {
       icon: Zap,
-      title: 'Operational Efficiency & Cost Savings',
-      description: 'We optimize how your business runs — reducing waste, improving productivity, and cutting unnecessary expenses.',
+      title: 'Rapid Development & Deployment',
+      description: 'We leverage modern frameworks and agile methodologies to deliver high-quality software faster without compromising quality.',
       features: [
-        'Lean process redesign',
-        'Technology implementation (ERP, inventory, CRM)',
-        'Supplier and logistics optimization'
+        'Agile development methodology',
+        'Modern tech stack and frameworks',
+        'Automated deployment pipelines'
       ],
       color: 'bg-emerald-600',
     },
     {
       icon: BarChart2,
-      title: 'Revenue Growth & Market Expansion',
-      description: 'From building your sales strategy to creating distribution channels, we help you grow faster and smarter.',
+      title: 'Scalable & Future-Ready Solutions',
+      description: 'Build applications that grow with your business using cloud-native architectures and scalable technologies.',
       features: [
-        'Sales team setup and training',
-        'Pricing and route-to-market strategies',
-        'Channel development (offline & digital)'
+        'Cloud-native architecture',
+        'Microservices and API-first design',
+        'Performance optimization and monitoring'
       ],
       color: 'bg-purple-600',
     },
     {
       icon: LifeBuoy,
-      title: 'Rescue & Recovery for Distressed Businesses',
-      description: 'Stuck? Losing money? We step in as interim managers to stabilize and rebuild the business from the inside out.',
+      title: 'Dedicated Technical Support',
+      description: 'Get ongoing support, maintenance, and updates to keep your applications running smoothly and securely.',
       features: [
-        'Turnaround strategy and execution',
-        'Cash flow control',
-        'Temporary leadership and restructuring'
+        '24/7 monitoring and support',
+        'Regular security updates',
+        'Performance optimization and bug fixes'
       ],
       color: 'bg-amber-600',
     },
     {
       icon: Globe,
-      title: 'Local Execution for Foreign Businesses',
-      description: 'Foreign companies looking to enter or expand in Nigeria get a trusted local operator to handle on-ground execution.',
+      title: 'Cross-Platform & Multi-Technology',
+      description: 'We work with your preferred tech stack or recommend the best technologies for your specific use case and requirements.',
       features: [
-        'Local entity setup',
-        'Regulatory compliance',
-        'Full subsidiary management'
+        'Multiple programming languages',
+        'Cross-platform development',
+        'Technology consulting and recommendations'
       ],
       color: 'bg-red-600',
     },
     {
       icon: Handshake,
       title: 'Flexible Engagement Models',
-      description: 'Whether you want us to manage your business end-to-end, fix key areas, or co-own the outcome, we have a model that works.',
+      description: 'Choose from various partnership models that fit your budget, timeline, and project requirements.',
       features: [
-        'Monthly retainer',
-        'Profit-sharing model',
-        'Equity partnership'
+        'Dedicated development team',
+        'Project-based development',
+        'Technical consulting and mentorship'
       ],
       color: 'bg-indigo-600',
     },
@@ -125,17 +125,6 @@ const WhyChooseiBeep = () => {
       card.addEventListener('mouseleave', () => hoverTL.reverse());
     });
 
-    // Background animation
-    const bgTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1,
-      },
-    });
-   
-
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
@@ -159,10 +148,10 @@ const WhyChooseiBeep = () => {
             Why Choose <span className="font-medium text-blue-600 dark:text-blue-400">iBeep</span>
           </h2>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto font-light leading-relaxed">
-            Real Partnership. Real Results.
+            Real Partnership. Real Code. Real Results.
           </p>
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-3xl mx-auto mt-4 font-light">
-            When you choose iBeep Business Management, you get more than advice — you get a business partner committed to delivering measurable outcomes.
+            When you choose iBeep Software Development, you get more than code — you get a technical partner committed to delivering exceptional software solutions.
           </p>
         </div>
 
@@ -190,7 +179,7 @@ const WhyChooseiBeep = () => {
               <div className="mt-auto space-y-3">
                 <div className="border-t border-slate-200 dark:border-slate-700 pt-6 mb-4">
                   <h4 className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
-                    Here's what you gain
+                    What you get
                   </h4>
                 </div>
                 {benefit.features.map((feature, featureIndex) => (
@@ -212,17 +201,17 @@ const WhyChooseiBeep = () => {
 
         <div className="mt-20 bg-white dark:bg-slate-800 rounded-xl p-8 shadow-lg border border-slate-200 dark:border-slate-700">
           <h3 className="text-2xl font-medium text-center text-slate-900 dark:text-white mb-8">
-            What This Means for You
+            What This Means for Your Business
           </h3>
          <AnimatedTable/>
         </div>
 
         <div className="mt-16 text-center">
           <p className="text-xl text-slate-600 dark:text-slate-300 italic mb-8">
-            "iBeep doesn't just solve problems. We unlock potential."
+            "iBeep doesn't just write code. We build solutions that transform businesses."
           </p>
           <p className="text-lg text-slate-700 dark:text-slate-200">
-            Let us help you run your business better — or run it for you.
+            Let us be your technical team while you focus on growing your business.
           </p>
         </div>
       </div>
