@@ -20,6 +20,7 @@ const Navigation = () => {
   const navItems = [
     { href: '/why-us', label: 'Why iBeep' },
     { href: '/services', label: 'Services' },
+    { href: '/mentorship', label: 'Mentorship' },
     { href: '/#who-we-serve', label: 'Who We Serve' },
     { href: '/mentorship', label: 'Mentorship' },
     { href: '/#contact', label: 'Contact' },
