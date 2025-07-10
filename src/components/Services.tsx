@@ -5,6 +5,7 @@ const Services = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [scrollY, setScrollY] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const sectionRef = useRef(null);
   const parallaxRef = useRef(null);
 
@@ -53,19 +54,32 @@ const Services = () => {
       observer.observe(sectionRef.current);
     }
 
-    // Parallax scroll effect
+    // Enhanced parallax scroll effect with multiple layers
     const handleScroll = () => {
       const scrolled = window.scrollY;
       setScrollY(scrolled);
     };
 
+    // Mouse movement tracking for interactive effects
+    const handleMouseMove = (e) => {
+      const rect = sectionRef.current?.getBoundingClientRect();
+      if (rect) {
+        setMousePosition({
+          x: ((e.clientX - rect.left) / rect.width) * 100,
+          y: ((e.clientY - rect.top) / rect.height) * 100,
+        });
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current);
       }
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
@@ -75,105 +89,244 @@ const Services = () => {
       id="services" 
       className="py-32 relative overflow-hidden min-h-screen"
     >
-      {/* Parallax Background */}
-      <div 
-        ref={parallaxRef}
-        className="absolute inset-0 will-change-transform"
-        style={{
-          transform: `translateY(${scrollY * 0.7}px) scale(1.1)`,
-          backgroundImage: `url('data:image/svg+xml,${encodeURIComponent(`
-            <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="techgrid" width="200" height="173.2" patternUnits="userSpaceOnUse">
-                  <path d="M 100 0 L 150 43.3 L 150 129.9 L 100 173.2 L 50 129.9 L 50 43.3 Z" 
-                        fill="none" stroke="rgba(59, 130, 246, 0.4)" stroke-width="2"/>
-                  <circle cx="100" cy="86.6" r="8" fill="rgba(168, 85, 247, 0.3)"/>
-                  <circle cx="50" cy="43.3" r="4" fill="rgba(16, 185, 129, 0.4)"/>
-                  <circle cx="150" cy="43.3" r="4" fill="rgba(245, 101, 101, 0.4)"/>
-                  <circle cx="50" cy="129.9" r="4" fill="rgba(251, 191, 36, 0.4)"/>
-                  <circle cx="150" cy="129.9" r="4" fill="rgba(139, 92, 246, 0.4)"/>
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#techgrid)"/>
-            </svg>
-          `)}')`,
-          backgroundSize: '200px 173px'
-        }}
-      >
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50/70 via-white/60 to-slate-50/70 dark:from-slate-900/80 dark:via-slate-800/70 dark:to-slate-900/80"></div>
+      {/* Enhanced Multi-Layer Parallax Background */}
+      <div className="absolute inset-0 will-change-transform">
         
-        {/* Tech-themed geometric shapes */}
+        {/* Layer 1: Animated Grid Pattern */}
         <div 
-          className="absolute -top-32 -left-32 w-[600px] h-[600px] opacity-20"
+          className="absolute inset-0 opacity-30"
           style={{
-            background: 'conic-gradient(from 0deg, rgba(59, 130, 246, 0.4), rgba(168, 85, 247, 0.4), rgba(16, 185, 129, 0.4), rgba(59, 130, 246, 0.4))',
-            borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
-            transform: `translate(${scrollY * 0.4}px, ${scrollY * 0.3}px) rotate(${scrollY * 0.1}deg)`
+            transform: `translateY(${scrollY * 0.3}px) scale(${1 + scrollY * 0.0002})`,
+            backgroundImage: `url('data:image/svg+xml,${encodeURIComponent(`
+              <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern id="techgrid" width="100" height="100" patternUnits="userSpaceOnUse">
+                    <path d="M 0 0 L 100 0 L 100 100 L 0 100 Z" fill="none" stroke="rgba(59, 130, 246, 0.1)" stroke-width="1"/>
+                    <path d="M 50 0 L 50 100" stroke="rgba(59, 130, 246, 0.1)" stroke-width="1"/>
+                    <path d="M 0 50 L 100 50" stroke="rgba(59, 130, 246, 0.1)" stroke-width="1"/>
+                    <circle cx="50" cy="50" r="2" fill="rgba(59, 130, 246, 0.3)"/>
+                    <circle cx="0" cy="0" r="1" fill="rgba(168, 85, 247, 0.4)"/>
+                    <circle cx="100" cy="0" r="1" fill="rgba(16, 185, 129, 0.4)"/>
+                    <circle cx="0" cy="100" r="1" fill="rgba(245, 101, 101, 0.4)"/>
+                    <circle cx="100" cy="100" r="1" fill="rgba(251, 191, 36, 0.4)"/>
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#techgrid)"/>
+              </svg>
+            `)}')`,
+            backgroundSize: '100px 100px'
           }}
-        ></div>
-        
-        <div 
-          className="absolute -bottom-32 -right-32 w-[500px] h-[500px] opacity-25"
-          style={{
-            background: 'linear-gradient(135deg, rgba(245, 101, 101, 0.4) 0%, rgba(251, 191, 36, 0.4) 50%, rgba(139, 92, 246, 0.4) 100%)',
-            borderRadius: '70% 30% 30% 70% / 70% 70% 30% 30%',
-            transform: `translate(${-scrollY * 0.5}px, ${scrollY * 0.4}px) rotate(${-scrollY * 0.08}deg)`
-          }}
-        ></div>
+        />
 
-        {/* Code-like floating elements */}
+        {/* Layer 2: Floating Code Elements */}
         <div 
-          className="absolute top-1/3 left-1/4 w-20 h-20 border-4 border-blue-400 opacity-60"
+          className="absolute inset-0"
           style={{
-            transform: `translate(${scrollY * 0.6}px, ${scrollY * 0.3}px) rotate(${scrollY * 0.2}deg)`,
-            clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+            transform: `translateY(${scrollY * 0.5}px) translateX(${scrollY * 0.1}px)`
           }}
-        ></div>
+        >
+          {/* Floating code snippets */}
+          <div className="absolute top-20 left-10 opacity-20 dark:opacity-30">
+            <div className="bg-slate-800 dark:bg-slate-700 p-4 rounded-lg shadow-lg transform rotate-12 hover:rotate-6 transition-transform duration-500">
+              <div className="text-green-400 font-mono text-xs">
+                <div>const app = () => {`{`}</div>
+                <div className="ml-2">return &lt;div&gt;Hello&lt;/div&gt;</div>
+                <div>{`}`}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute top-40 right-20 opacity-20 dark:opacity-30">
+            <div className="bg-slate-800 dark:bg-slate-700 p-4 rounded-lg shadow-lg transform -rotate-6 hover:rotate-0 transition-transform duration-500">
+              <div className="text-blue-400 font-mono text-xs">
+                <div>function deploy() {`{`}</div>
+                <div className="ml-2">build && push</div>
+                <div>{`}`}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute bottom-32 left-1/4 opacity-20 dark:opacity-30">
+            <div className="bg-slate-800 dark:bg-slate-700 p-4 rounded-lg shadow-lg transform rotate-3 hover:-rotate-3 transition-transform duration-500">
+              <div className="text-purple-400 font-mono text-xs">
+                <div>class AI {`{`}</div>
+                <div className="ml-2">predict(data)</div>
+                <div>{`}`}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Layer 3: Dynamic Geometric Shapes */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            transform: `translateY(${scrollY * 0.7}px) rotate(${scrollY * 0.05}deg)`
+          }}
+        >
+          {/* Large animated shapes */}
+          <div 
+            className="absolute -top-32 -left-32 w-[800px] h-[800px] opacity-10"
+            style={{
+              background: `conic-gradient(from ${scrollY * 0.2}deg, 
+                rgba(59, 130, 246, 0.3), 
+                rgba(168, 85, 247, 0.3), 
+                rgba(16, 185, 129, 0.3), 
+                rgba(245, 101, 101, 0.3),
+                rgba(59, 130, 246, 0.3))`,
+              borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
+              transform: `translate(${scrollY * 0.3}px, ${scrollY * 0.2}px) rotate(${scrollY * 0.1}deg)`
+            }}
+          />
+          
+          <div 
+            className="absolute -bottom-32 -right-32 w-[600px] h-[600px] opacity-15"
+            style={{
+              background: `linear-gradient(${45 + scrollY * 0.1}deg, 
+                rgba(245, 101, 101, 0.4) 0%, 
+                rgba(251, 191, 36, 0.4) 50%, 
+                rgba(139, 92, 246, 0.4) 100%)`,
+              borderRadius: '70% 30% 30% 70% / 70% 70% 30% 30%',
+              transform: `translate(${-scrollY * 0.4}px, ${scrollY * 0.3}px) rotate(${-scrollY * 0.08}deg)`
+            }}
+          />
+        </div>
+
+        {/* Layer 4: Interactive Mouse-Following Elements */}
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            transform: `translate(${(mousePosition.x - 50) * 0.1}px, ${(mousePosition.y - 50) * 0.1}px)`
+          }}
+        >
+          <div className="absolute top-1/4 left-1/3 w-32 h-32 border-2 border-blue-400 opacity-30 rounded-full"
+               style={{ transform: `rotate(${scrollY * 0.2}deg)` }} />
+          <div className="absolute top-2/3 right-1/4 w-24 h-24 border-2 border-purple-400 opacity-25"
+               style={{ 
+                 transform: `rotate(${scrollY * 0.15}deg)`,
+                 clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+               }} />
+        </div>
+
+        {/* Layer 5: Animated Binary Rain Effect */}
+        <div 
+          className="absolute inset-0 opacity-5 dark:opacity-10"
+          style={{
+            transform: `translateY(${scrollY * 1.2}px)`
+          }}
+        >
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute text-green-400 font-mono text-xs"
+              style={{
+                left: `${(i * 5) % 100}%`,
+                top: `${-20 + (scrollY * 0.5 + i * 50) % window.innerHeight}px`,
+                animation: `binaryFall ${3 + (i % 3)}s linear infinite`,
+                animationDelay: `${i * 0.2}s`
+              }}
+            >
+              {Math.random() > 0.5 ? '1' : '0'}
+            </div>
+          ))}
+        </div>
+
+        {/* Layer 6: Gradient Overlay with Dynamic Colors */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(
+              ${135 + scrollY * 0.05}deg, 
+              rgba(255, 255, 255, 0.8) 0%, 
+              rgba(255, 255, 255, 0.6) 50%, 
+              rgba(255, 255, 255, 0.8) 100%
+            )`,
+            mixBlendMode: 'overlay'
+          }}
+        />
         
+        {/* Dark mode gradient overlay */}
         <div 
-          className="absolute top-1/2 right-1/3 w-16 h-16 border-3 border-purple-400 opacity-50"
+          className="absolute inset-0 dark:block hidden"
           style={{
-            transform: `translate(${-scrollY * 0.4}px, ${scrollY * 0.5}px) rotate(${scrollY * 0.15}deg)`
+            background: `linear-gradient(
+              ${135 + scrollY * 0.05}deg, 
+              rgba(15, 23, 42, 0.9) 0%, 
+              rgba(30, 41, 59, 0.8) 50%, 
+              rgba(15, 23, 42, 0.9) 100%
+            )`
           }}
-        ></div>
-        
+        />
+
+        {/* Layer 7: Floating Tech Icons */}
         <div 
-          className="absolute bottom-1/3 left-1/3 w-24 h-24 border-4 border-emerald-400 rounded-full opacity-40"
+          className="absolute inset-0"
           style={{
-            transform: `translate(${scrollY * 0.3}px, ${scrollY * 0.6}px)`
+            transform: `translateY(${scrollY * 0.4}px)`
           }}
-        ></div>
+        >
+          {/* React Icon */}
+          <div 
+            className="absolute top-20 right-1/4 opacity-20"
+            style={{
+              transform: `rotate(${scrollY * 0.3}deg) scale(${1 + Math.sin(scrollY * 0.01) * 0.1})`
+            }}
+          >
+            <div className="w-16 h-16 border-4 border-cyan-400 rounded-full relative">
+              <div className="absolute inset-2 border-2 border-cyan-400 rounded-full"></div>
+              <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-cyan-400 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+            </div>
+          </div>
+
+          {/* Node.js Icon */}
+          <div 
+            className="absolute bottom-40 left-1/5 opacity-20"
+            style={{
+              transform: `rotate(${-scrollY * 0.2}deg) scale(${1 + Math.cos(scrollY * 0.01) * 0.1})`
+            }}
+          >
+            <div className="w-12 h-12 bg-green-400 transform rotate-45"></div>
+          </div>
+
+          {/* Cloud Icon */}
+          <div 
+            className="absolute top-1/2 left-10 opacity-20"
+            style={{
+              transform: `translateY(${Math.sin(scrollY * 0.01) * 20}px)`
+            }}
+          >
+            <div className="w-20 h-12 bg-blue-400 rounded-full relative">
+              <div className="absolute -top-2 left-4 w-8 h-8 bg-blue-400 rounded-full"></div>
+              <div className="absolute -top-1 right-4 w-6 h-6 bg-blue-400 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Layer 8: Particle System */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(50)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-blue-400 rounded-full opacity-30"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`,
+                animationDelay: `${Math.random() * 2}s`,
+                transform: `translate(${Math.sin(scrollY * 0.01 + i) * 20}px, ${Math.cos(scrollY * 0.01 + i) * 20}px)`
+              }}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Animated foreground elements */}
-      <div className="absolute inset-0 opacity-40 pointer-events-none">
-        <div 
-          className="absolute top-20 left-10 w-80 h-80 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"
-          style={{
-            transform: `translate(${scrollY * 0.2}px, ${scrollY * 0.15}px) scale(${1 + scrollY * 0.0005})`
-          }}
-        ></div>
-        <div 
-          className="absolute top-40 right-10 w-96 h-96 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"
-          style={{
-            transform: `translate(${-scrollY * 0.25}px, ${scrollY * 0.18}px) scale(${1 + scrollY * 0.0003})`
-          }}
-        ></div>
-        <div 
-          className="absolute -bottom-8 left-20 w-72 h-72 bg-gradient-to-r from-orange-500 to-emerald-600 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"
-          style={{
-            transform: `translate(${scrollY * 0.12}px, ${scrollY * 0.1}px) scale(${1 + scrollY * 0.0004})`
-          }}
-        ></div>
-      </div>
-
+      {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className={`text-center mb-24 transition-all duration-1000 transform ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
         }`}>
-          <div className="inline-block px-6 py-3 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-full mb-8">
+          <div className="inline-block px-6 py-3 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-full mb-8 backdrop-blur-sm">
             <span className="text-blue-700 dark:text-blue-300 font-medium text-sm tracking-wide uppercase">
               Our Services
             </span>
@@ -207,7 +360,7 @@ const Services = () => {
               onMouseLeave={() => setHoveredIndex(null)}
             >
               {/* Card */}
-              <div className="relative h-full bg-white dark:bg-slate-800 rounded-3xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.02] hover:-translate-y-2 border border-slate-100 dark:border-slate-700 overflow-hidden">
+              <div className="relative h-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-md rounded-3xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.02] hover:-translate-y-2 border border-slate-100 dark:border-slate-700 overflow-hidden">
                 
                 {/* Animated background gradient */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${service.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
@@ -253,12 +406,12 @@ const Services = () => {
                 {/* Interactive particles */}
                 {hoveredIndex === index && (
                   <div className="absolute inset-0 pointer-events-none">
-                    {[...Array(6)].map((_, i) => (
+                    {[...Array(8)].map((_, i) => (
                       <div
                         key={i}
                         className="absolute w-1 h-1 bg-current opacity-30 rounded-full"
                         style={{
-                          top: `${20 + (i * 12)}%`,
+                          top: `${20 + (i * 10)}%`,
                           right: `${10 + (i * 8)}%`,
                           animation: `float ${2 + (i * 0.3)}s ease-in-out infinite`,
                           animationDelay: `${i * 0.1}s`
@@ -281,7 +434,7 @@ const Services = () => {
           </p>
           <a
             href="#contact"
-            className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-2xl font-medium text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-2xl font-medium text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl backdrop-blur-sm"
           >
             Start Your Project
             <div className="w-5 h-5 transform transition-transform duration-300 group-hover:translate-x-1">
@@ -294,28 +447,21 @@ const Services = () => {
 
       {/* Custom CSS for animations */}
       <style jsx>{`
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-8px); }
         }
 
-        .animate-blob {
-          animation: blob 7s infinite;
+        @keyframes binaryFall {
+          0% { transform: translateY(-100vh); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translateY(100vh); opacity: 0; }
         }
 
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-          animation-delay: 4s;
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 0.7; }
+          50% { transform: scale(1.05); opacity: 1; }
         }
       `}</style>
     </section>
