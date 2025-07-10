@@ -21,6 +21,7 @@ const Navigation = () => {
     { href: '/why-us', label: 'Why iBeep' },
     { href: '/services', label: 'Services' },
     { href: '/#who-we-serve', label: 'Who We Serve' },
+    { href: '/mentorship', label: 'Mentorship' },
     { href: '/#contact', label: 'Contact' },
   ];
 
