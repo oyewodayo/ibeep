@@ -125,17 +125,16 @@ const Services = () => {
             transform: `translateY(${scrollY * 0.5}px) translateX(${scrollY * 0.1}px)`
           }}
         >
-          {/* Floating code snippets */}
-          <div className="absolute top-20 left-10 opacity-20 dark:opacity-30">
-            <div className="bg-slate-800 dark:bg-slate-700 p-4 rounded-lg shadow-lg transform rotate-12 hover:rotate-6 transition-transform duration-500">
-              <div className="text-green-400 font-mono text-xs">
-                <div>const app = () => {`{`}</div>
-                <div className="ml-2">return &lt;div&gt;Hello&lt;/div&gt;</div>
-                <div>{`}`}</div>
-              </div>
+         {/* Floating code snippets */}
+        <div className="absolute top-20 left-10 opacity-20 dark:opacity-30">
+          <div className="bg-slate-800 dark:bg-slate-700 p-4 rounded-lg shadow-lg transform rotate-12 hover:rotate-6 transition-transform duration-500">
+            <div className="text-green-400 font-mono text-xs">
+              <div>{`const app = () => {`}</div>
+              <div className="ml-2">{`  return <div>Hello</div>`}</div>
+              <div>{`}`}</div>
             </div>
           </div>
-
+        </div>
           <div className="absolute top-40 right-20 opacity-20 dark:opacity-30">
             <div className="bg-slate-800 dark:bg-slate-700 p-4 rounded-lg shadow-lg transform -rotate-6 hover:rotate-0 transition-transform duration-500">
               <div className="text-blue-400 font-mono text-xs">
@@ -444,26 +443,6 @@ const Services = () => {
           </a>
         </div>
       </div>
-
-      {/* Custom CSS for animations */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-        }
-
-        @keyframes binaryFall {
-          0% { transform: translateY(-100vh); opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { transform: translateY(100vh); opacity: 0; }
-        }
-
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); opacity: 0.7; }
-          50% { transform: scale(1.05); opacity: 1; }
-        }
-      `}</style>
     </section>
   );
 };
