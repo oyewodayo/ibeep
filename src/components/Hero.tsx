@@ -9,86 +9,125 @@ const Hero = () => {
   const slides = [
     {
       id: 0,
-      content: (
-        <div className="relative w-full h-full flex items-center justify-center">
-          {/* Animated tech graphics */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div 
-              className="w-80 h-80 border-2 border-blue-200 dark:border-blue-800 rounded-full opacity-30"
-              style={{ animation: 'spin 20s linear infinite' }}
-            ></div>
-          </div>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div 
-              className="w-64 h-64 border border-slate-300 dark:border-slate-600 rounded-full opacity-20"
-              style={{ animation: 'spin 15s linear infinite reverse' }}
-            ></div>
-          </div>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div 
-              className="w-48 h-48 border border-blue-300 dark:border-blue-700 rounded-full opacity-40"
-              style={{ animation: 'spin 12s linear infinite' }}
-            ></div>
-          </div>
-          <div className="absolute inset-0">
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-3 h-3 bg-blue-500 dark:bg-blue-400 rounded-full opacity-90"
-                style={{
-                  top: `${20 + (i * 8)}%`,
-                  left: `${15 + (i * 9)}%`,
-                  animation: `float ${3 + (i * 0.5)}s ease-in-out infinite`,
-                  animationDelay: `${i * 0.2}s`
-                }}
-              ></div>
-            ))}
-          </div>
-          <div className="absolute top-16 right-16">
-            <div 
-              className="w-8 h-8 border-2 border-slate-400 dark:border-slate-500 rotate-45 opacity-40"
-              style={{ animation: 'pulse 2s ease-in-out infinite' }}
-            ></div>
-          </div>
-          <div className="absolute bottom-20 left-12">
-            <div 
-              className="w-6 h-6 bg-blue-400 dark:bg-blue-600 opacity-50"
-              style={{
-                clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
-                animation: 'bounce 3s ease-in-out infinite'
-              }}
-            ></div>
-          </div>
-          <div className="relative z-10 flex items-center justify-center">
-            <div 
-              className="w-20 h-20 border-3 border-blue-600 dark:border-blue-400 opacity-70"
-              style={{
-                clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)',
-                animation: 'pulse 4s ease-in-out infinite'
-              }}
-            ></div>
-          </div>
-          <div className="absolute inset-0 opacity-20">
-            <svg className="w-full h-full" viewBox="0 0 400 400">
-              <line 
-                x1="200" y1="100" x2="200" y2="300" 
-                stroke="currentColor" 
-                strokeWidth="1"
-                className="text-slate-400 dark:text-slate-600"
-                style={{ animation: 'drawLine 3s ease-in-out infinite alternate' }}
-              />
-              <line 
-                x1="100" y1="200" x2="300" y2="200" 
-                stroke="currentColor" 
-                strokeWidth="1"
-                className="text-slate-400 dark:text-slate-600"
-                style={{
-                  animation: 'drawLine 3s ease-in-out infinite alternate',
-                  animationDelay: '1s'
-                }}
-              />
+     content: (
+        <div className="relative w-full bg-gradient-to-br from-blue-800 to-blue-600 h-full flex items-center justify-center overflow-hidden">
+          {/* Animated background grid */}
+          <div className="absolute inset-0 opacity-10">
+            <svg className="w-full h-full" viewBox="0 0 400 400" preserveAspectRatio="none">
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-white" />
+              </pattern>
+              <rect width="100%" height="100%" fill="url(#grid)" />
             </svg>
           </div>
+
+          {/* Floating particles */}
+          <div className="absolute inset-0">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-2 h-2 bg-blue-400 rounded-full"
+                style={{
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                  animation: `floatParticle ${8 + Math.random() * 10}s ease-in-out infinite both`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  opacity: 0.6,
+                  transform: `scale(${0.5 + Math.random()})`
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Main orbiting circles */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div 
+              className="w-100 h-100 border-2 border-blue-300 rounded-full opacity-30"
+              style={{ 
+                animation: 'orbit 25s linear infinite',
+                boxShadow: '0 0 30px rgba(100, 200, 255, 0.2)'
+              }}
+            />
+          </div>
+          
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div 
+              className="w-90 h-90 border border-blue-200 rounded-full opacity-40"
+              style={{ 
+                animation: 'orbitReverse 20s linear infinite',
+                boxShadow: 'inset 0 0 20px rgba(100, 200, 255, 0.1)'
+              }}
+            />
+          </div>
+          
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div 
+              className="w-48 h-48 border border-blue-100 rounded-full opacity-50"
+              style={{ 
+                animation: 'orbit 15s linear infinite',
+                boxShadow: '0 0 40px rgba(100, 200, 255, 0.3)'
+              }}
+            />
+          </div>
+
+          {/* Animated hexagon core */}
+          <div className="relative z-10 flex items-center justify-center">
+            <div 
+              className="w-24 h-24 bg-blue-500/30 backdrop-blur-sm"
+              style={{
+                clipPath: 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)',
+                animation: 'pulseGlow 4s ease-in-out infinite',
+                boxShadow: '0 0 0 2px rgba(100, 200, 255, 0.5), inset 0 0 20px rgba(100, 200, 255, 0.3)'
+              }}
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-2 h-2 bg-white rounded-full animate-ping" />
+              </div>
+            </div>
+          </div>
+
+          {/* Floating tech elements */}
+          <div className="absolute top-1/4 right-1/4">
+            <div 
+              className="w-10 h-10 bg-blue-400/30 backdrop-blur-sm rounded-lg rotate-45"
+              style={{
+                animation: 'floatElement 8s ease-in-out infinite',
+                boxShadow: '0 0 15px rgba(100, 200, 255, 0.3)'
+              }}
+            />
+          </div>
+          
+          <div className="absolute bottom-1/3 left-1/4">
+            <div 
+              className="w-8 h-8 bg-blue-300/30 backdrop-blur-sm"
+              style={{
+                clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+                animation: 'floatElement 6s ease-in-out infinite reverse',
+                boxShadow: '0 0 10px rgba(100, 200, 255, 0.2)'
+              }}
+            />
+          </div>
+
+          {/* Connection lines */}
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 400">
+            <line 
+              x1="50%" y1="50%" x2="70%" y2="30%" 
+              stroke="rgba(100, 200, 255, 0.3)" 
+              strokeWidth="1"
+              strokeDasharray="5,5"
+              style={{ animation: 'drawConnection 6s linear infinite' }}
+            />
+            <line 
+              x1="50%" y1="50%" x2="30%" y2="70%" 
+              stroke="rgba(100, 200, 255, 0.3)" 
+              strokeWidth="1"
+              strokeDasharray="5,5"
+              style={{ 
+                animation: 'drawConnection 6s linear infinite',
+                animationDelay: '1.5s'
+              }}
+            />
+          </svg>
         </div>
       ),
       alt: "Animated software development visualization"
@@ -134,7 +173,7 @@ const Hero = () => {
     // Auto-advance slides every 5 seconds
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -221,8 +260,8 @@ const Hero = () => {
             </div>
           </div>
           {/* Right Column - Animated Slider */}
-          <div className={`relative h-96 lg:h-[600px] transition-all duration-1200 delay-400 transform ${
-            isVisible ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'
+          <div className={`relative h-96 lg:h-[600px] transition-all duration-1000 delay-400 transform ${
+            isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
           }`}>
             {/* Slide container */}
             <div className="relative w-full h-full overflow-hidden rounded-xl">
