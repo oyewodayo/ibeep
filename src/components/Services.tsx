@@ -8,6 +8,7 @@ const Services = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const sectionRef = useRef(null);
   const parallaxRef = useRef(null);
+  const [imageOffset, setImageOffset] = useState(0);
 
   const services = [
     {
@@ -74,14 +75,44 @@ const Services = () => {
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('mousemove', handleMouseMove);
 
+    // Auto-scrolling image animation
+    let animationFrame;
+    let lastTimestamp = 0;
+    const scrollSpeed = 0.2; // pixels per frame
+
+    const animate = (timestamp) => {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const delta = timestamp - lastTimestamp;
+      lastTimestamp = timestamp;
+
+      // Only update position if the section is visible
+      if (sectionRef.current && isElementInViewport(sectionRef.current)) {
+        setImageOffset(prev => (prev + scrollSpeed * (delta / 16)) % 2000); // Modulo to loop
+      }
+      
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
     return () => {
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current);
       }
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationFrame);
     };
   }, []);
+
+  // Helper function to check if element is in viewport
+  const isElementInViewport = (el) => {
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.bottom >= 0
+    );
+  };
 
   return (
     <section 
@@ -91,70 +122,8 @@ const Services = () => {
     >
       {/* Enhanced Multi-Layer Parallax Background */}
       <div className="absolute inset-0 will-change-transform">
-        
-        {/* Layer 1: Animated Grid Pattern */}
-        <div 
-          className="absolute inset-0 opacity-30"
-          style={{
-            transform: `translateY(${scrollY * 0.3}px) scale(${1 + scrollY * 0.0002})`,
-            backgroundImage: `url('data:image/svg+xml,${encodeURIComponent(`
-              <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <pattern id="techgrid" width="100" height="100" patternUnits="userSpaceOnUse">
-                    <path d="M 0 0 L 100 0 L 100 100 L 0 100 Z" fill="none" stroke="rgba(59, 130, 246, 0.1)" stroke-width="1"/>
-                    <path d="M 50 0 L 50 100" stroke="rgba(59, 130, 246, 0.1)" stroke-width="1"/>
-                    <path d="M 0 50 L 100 50" stroke="rgba(59, 130, 246, 0.1)" stroke-width="1"/>
-                    <circle cx="50" cy="50" r="2" fill="rgba(59, 130, 246, 0.3)"/>
-                    <circle cx="0" cy="0" r="1" fill="rgba(168, 85, 247, 0.4)"/>
-                    <circle cx="100" cy="0" r="1" fill="rgba(16, 185, 129, 0.4)"/>
-                    <circle cx="0" cy="100" r="1" fill="rgba(245, 101, 101, 0.4)"/>
-                    <circle cx="100" cy="100" r="1" fill="rgba(251, 191, 36, 0.4)"/>
-                  </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#techgrid)"/>
-              </svg>
-            `)}')`,
-            backgroundSize: '100px 100px'
-          }}
-        />
 
-        {/* Layer 2: Floating Code Elements */}
-        <div 
-          className="absolute inset-0"
-          style={{
-            transform: `translateY(${scrollY * 0.5}px) translateX(${scrollY * 0.1}px)`
-          }}
-        >
-         {/* Floating code snippets */}
-        <div className="absolute top-20 left-10 opacity-20 dark:opacity-30">
-          <div className="bg-slate-800 dark:bg-slate-700 p-4 rounded-lg shadow-lg transform rotate-12 hover:rotate-6 transition-transform duration-500">
-            <div className="text-green-400 font-mono text-xs">
-              <div>{`const app = () => {`}</div>
-              <div className="ml-2">{`  return <div>Hello</div>`}</div>
-              <div>{`}`}</div>
-            </div>
-          </div>
-        </div>
-          <div className="absolute top-40 right-20 opacity-20 dark:opacity-30">
-            <div className="bg-slate-800 dark:bg-slate-700 p-4 rounded-lg shadow-lg transform -rotate-6 hover:rotate-0 transition-transform duration-500">
-              <div className="text-blue-400 font-mono text-xs">
-                <div>function deploy() {`{`}</div>
-                <div className="ml-2">build && push</div>
-                <div>{`}`}</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute bottom-32 left-1/4 opacity-20 dark:opacity-30">
-            <div className="bg-slate-800 dark:bg-slate-700 p-4 rounded-lg shadow-lg transform rotate-3 hover:-rotate-3 transition-transform duration-500">
-              <div className="text-purple-400 font-mono text-xs">
-                <div>class AI {`{`}</div>
-                <div className="ml-2">predict(data)</div>
-                <div>{`}`}</div>
-              </div>
-            </div>
-          </div>
-        </div>
+ 
 
         {/* Layer 3: Dynamic Geometric Shapes */}
         <div 

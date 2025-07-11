@@ -1,572 +1,653 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Star, Clock, Users, Award, ChevronRight, Play, BookOpen, Code, Brain, Cloud, Smartphone, Globe } from 'lucide-react';
+import { Star, Clock, Users, Award, ChevronRight, Play, BookOpen, Code, Brain, Cloud, Smartphone, Globe, Zap, TrendingUp, Target, Sparkles } from 'lucide-react';
+import { mentorshipTracks } from '../data/mentorshipTracks';
+import { mentors } from '../data/mentors';
+import { testimonials } from '../data/testimonials';
+import { successStories } from '../data/successStories';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { Button } from '@/components/ui/button';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Mentorship = () => {
   const [selectedTrack, setSelectedTrack] = useState('all');
   const [hoveredMentor, setHoveredMentor] = useState(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const heroRef = useRef(null);
   const mentorsRef = useRef(null);
   const tracksRef = useRef(null);
 
-  const mentorshipTracks = [
-    {
-      id: 'ai-ml',
-      title: 'AI/ML & Deep Learning',
-      icon: Brain,
-      description: 'Master artificial intelligence, machine learning algorithms, and deep learning frameworks',
-      duration: '6-12 months',
-      level: 'Intermediate to Advanced',
-      technologies: ['Python', 'TensorFlow', 'PyTorch', 'Scikit-learn', 'OpenCV', 'NLP'],
-      color: 'from-purple-500 to-indigo-600',
-      bgColor: 'bg-purple-50 dark:bg-purple-950/20'
-    },
-    {
-      id: 'cloud-devops',
-      title: 'Cloud & DevOps',
-      icon: Cloud,
-      description: 'Learn cloud infrastructure, containerization, and deployment automation',
-      duration: '4-8 months',
-      level: 'Beginner to Advanced',
-      technologies: ['AWS', 'Docker', 'Kubernetes', 'Terraform', 'Jenkins', 'Monitoring'],
-      color: 'from-blue-500 to-cyan-600',
-      bgColor: 'bg-blue-50 dark:bg-blue-950/20'
-    },
-    {
-      id: 'mobile-dev',
-      title: 'Mobile Development',
-      icon: Smartphone,
-      description: 'Build native and cross-platform mobile applications',
-      duration: '4-6 months',
-      level: 'Beginner to Intermediate',
-      technologies: ['React Native', 'Flutter', 'Swift', 'Kotlin', 'Firebase', 'App Store'],
-      color: 'from-emerald-500 to-teal-600',
-      bgColor: 'bg-emerald-50 dark:bg-emerald-950/20'
-    },
-    {
-      id: 'web-dev',
-      title: 'Web Development',
-      icon: Globe,
-      description: 'Full-stack web development with modern frameworks and best practices',
-      duration: '3-6 months',
-      level: 'Beginner to Advanced',
-      technologies: ['React', 'Node.js', 'TypeScript', 'Next.js', 'Database', 'APIs'],
-      color: 'from-orange-500 to-red-600',
-      bgColor: 'bg-orange-50 dark:bg-orange-950/20'
-    }
-  ];
+  // Animated background particles
+  const particles = Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 3 + 1,
+    duration: Math.random() * 20 + 10,
+    delay: Math.random() * 5,
+  }));
 
-  const mentors = [
-    {
-      id: 1,
-      name: 'Dr. Sarah Chen',
-      title: 'AI/ML Research Scientist',
-      company: 'Former Google AI',
-      specialties: ['Deep Learning', 'Computer Vision', 'NLP'],
-      experience: '8+ years',
-      rating: 4.9,
-      students: 150,
-      track: 'ai-ml',
-      bio: 'PhD in Computer Science with expertise in deep learning and computer vision. Published 25+ research papers and led AI teams at top tech companies.',
-      achievements: ['Google AI Researcher', 'Published 25+ Papers', 'TensorFlow Contributor'],
-      image: '/images/mentor-1.jpg', // Will be blurred
-      price: '$120/hour',
-      availability: 'Weekends'
-    },
-    {
-      id: 2,
-      name: 'Michael Rodriguez',
-      title: 'Senior DevOps Engineer',
-      company: 'Netflix',
-      specialties: ['AWS', 'Kubernetes', 'Infrastructure'],
-      experience: '10+ years',
-      rating: 4.8,
-      students: 200,
-      track: 'cloud-devops',
-      bio: 'Senior DevOps engineer with extensive experience in cloud infrastructure and scalable systems. Built deployment pipelines serving millions of users.',
-      achievements: ['AWS Certified Solutions Architect', 'Kubernetes Expert', 'Netflix Scale Systems'],
-      image: '/images/mentor-2.jpg',
-      price: '$100/hour',
-      availability: 'Evenings'
-    },
-    {
-      id: 3,
-      name: 'Emily Johnson',
-      title: 'Mobile App Architect',
-      company: 'Uber',
-      specialties: ['React Native', 'iOS', 'Android'],
-      experience: '7+ years',
-      rating: 4.9,
-      students: 120,
-      track: 'mobile-dev',
-      bio: 'Mobile development expert who has built apps used by millions. Specializes in cross-platform development and mobile architecture.',
-      achievements: ['Uber Mobile Team Lead', 'React Native Core Contributor', '10M+ App Downloads'],
-      image: '/images/mentor-3.jpg',
-      price: '$90/hour',
-      availability: 'Flexible'
-    },
-    {
-      id: 4,
-      name: 'David Kim',
-      title: 'Full-Stack Architect',
-      company: 'Stripe',
-      specialties: ['React', 'Node.js', 'System Design'],
-      experience: '9+ years',
-      rating: 4.8,
-      students: 180,
-      track: 'web-dev',
-      bio: 'Full-stack engineer with deep expertise in modern web technologies. Built payment systems handling billions in transactions.',
-      achievements: ['Stripe Senior Engineer', 'Open Source Maintainer', 'Tech Conference Speaker'],
-      image: '/images/mentor-4.jpg',
-      price: '$110/hour',
-      availability: 'Weekdays'
-    },
-    {
-      id: 5,
-      name: 'Dr. Priya Patel',
-      title: 'Machine Learning Engineer',
-      company: 'OpenAI',
-      specialties: ['LLMs', 'Transformers', 'MLOps'],
-      experience: '6+ years',
-      rating: 5.0,
-      students: 90,
-      track: 'ai-ml',
-      bio: 'ML engineer working on cutting-edge language models. Expert in transformer architectures and large-scale ML systems.',
-      achievements: ['OpenAI Research Team', 'Transformer Expert', 'MLOps Pioneer'],
-      image: '/images/mentor-5.jpg',
-      price: '$150/hour',
-      availability: 'Weekends'
-    },
-    {
-      id: 6,
-      name: 'Alex Thompson',
-      title: 'Cloud Solutions Architect',
-      company: 'Microsoft Azure',
-      specialties: ['Azure', 'Microservices', 'Security'],
-      experience: '12+ years',
-      rating: 4.9,
-      students: 250,
-      track: 'cloud-devops',
-      bio: 'Cloud architect with extensive experience in enterprise solutions. Designed cloud infrastructure for Fortune 500 companies.',
-      achievements: ['Microsoft MVP', 'Azure Architect Expert', 'Enterprise Solutions'],
-      image: '/images/mentor-6.jpg',
-      price: '$130/hour',
-      availability: 'Evenings'
-    }
-  ];
+
+
+  // Track mouse movement for interactive effects
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Rotate testimonials
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Reveal animation on load
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+
 
   const filteredMentors = selectedTrack === 'all' 
     ? mentors 
     : mentors.filter(mentor => mentor.track === selectedTrack);
 
-  useEffect(() => {
-    // Hero animation
-    gsap.fromTo(heroRef.current, 
-      { opacity: 0, y: 50 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        duration: 1,
-        ease: 'power3.out'
-      }
-    );
-
-    // Tracks animation
-    gsap.fromTo(tracksRef.current?.children || [], 
-      { opacity: 0, y: 30 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'back.out(1.2)',
-        scrollTrigger: {
-          trigger: tracksRef.current,
-          start: 'top 80%'
-        }
-      }
-    );
-
-    // Mentors animation
-    gsap.fromTo(mentorsRef.current?.children || [], 
-      { opacity: 0, scale: 0.9 },
-      { 
-        opacity: 1, 
-        scale: 1, 
-        duration: 0.6,
-        stagger: 0.1,
-        ease: 'back.out(1.2)',
-        scrollTrigger: {
-          trigger: mentorsRef.current,
-          start: 'top 80%'
-        }
-      }
-    );
-
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, []);
-
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
-      <Navigation />
-      
+    <>
+    <Navigation/>
+    <div className="min-h-screen bg-white dark:bg-gray-900 overflow-hidden">
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-950/20">
-        <div className="max-w-7xl mx-auto">
-          <div ref={heroRef} className="text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl mb-8 shadow-lg">
-              <BookOpen className="w-10 h-10 text-white" />
+      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
+        {/* Animated Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-950/20">
+          {/* Floating Particles */}
+          {particles.map((particle) => (
+            <div
+              key={particle.id}
+              className="absolute rounded-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 animate-pulse"
+              style={{
+                left: `${particle.x}%`,
+                top: `${particle.y}%`,
+                width: `${particle.size}px`,
+                height: `${particle.size}px`,
+                animationDuration: `${particle.duration}s`,
+                animationDelay: `${particle.delay}s`,
+              }}
+            />
+          ))}
+          
+          {/* Gradient Orbs */}
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-purple-300/30 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-300/30 to-pink-300/30 rounded-full blur-3xl animate-pulse delay-1000" />
+          
+          {/* Interactive Mouse Follower */}
+          <div 
+            className="absolute w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-sm pointer-events-none transition-all duration-300"
+            style={{
+              left: `${mousePosition.x - 12}px`,
+              top: `${mousePosition.y - 12}px`,
+              opacity: 0.3,
+            }}
+          />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto z-10">
+          <div className={`text-center transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+            {/* Floating Success Badge */}
+            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full text-sm font-semibold mb-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <Sparkles className="w-4 h-4 mr-2" />
+              <span className="animate-pulse">95% Success Rate</span>
+              <TrendingUp className="w-4 h-4 ml-2" />
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-              Level Up Your <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Tech Skills</span>
+            {/* Animated Icon */}
+            <div className="relative inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl mb-8 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-110 hover:rotate-6">
+              <BookOpen className="w-12 h-12 text-white animate-pulse" />
+              <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center">
+                <Zap className="w-4 h-4 text-white" />
+              </div>
+            </div>
+            
+            {/* Main Heading with Typing Effect */}
+            <h1 className="text-6xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+              <span className="block">Transform Your</span>
+              <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-pulse">
+                Tech Career
+              </span>
+              <span className="block">in Months</span>
             </h1>
             
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed">
-              Get personalized mentorship from industry experts at top tech companies. 
-              Master AI/ML, Cloud, Mobile, and Web development with hands-on guidance.
+            {/* Enhanced Subtitle */}
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-8 leading-relaxed">
+              Get <span className="font-semibold text-blue-600">1-on-1 mentorship</span> from industry experts at 
+              <span className="font-semibold text-purple-600"> FAANG companies</span>. 
+              Master AI/ML, Cloud, Mobile, and Web development with guaranteed results.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                <Play className="mr-2 w-5 h-5" />
-                Start Your Journey
-              </Button>
-              <Button variant="outline" className="px-8 py-4 text-lg font-semibold rounded-xl border-2 hover:bg-gray-50 dark:hover:bg-gray-800">
-                Browse Mentors
-              </Button>
+            {/* Rotating Testimonials */}
+            <div className="mb-8 h-16 flex items-center justify-center">
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl px-6 py-3 shadow-lg max-w-md mx-auto transition-all duration-500 hover:scale-105">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
+                    <Star className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      "{testimonials[currentTestimonial].text}"
+                    </p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                      - {testimonials[currentTestimonial].name}, {testimonials[currentTestimonial].role}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+            {/* Enhanced CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+              <button className="group relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-10 py-5 text-lg font-semibold rounded-2xl shadow-2xl hover:shadow-3xl transform hover:scale-110 transition-all duration-300 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+                <div className="relative flex items-center">
+                  <Play className="mr-3 w-6 h-6" />
+                  Start Free Trial
+                  <Sparkles className="ml-2 w-5 h-5 animate-pulse" />
+                </div>
+              </button>
+              
+              <button className="group px-10 py-5 text-lg font-semibold rounded-2xl border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-purple-500 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-105">
+                <div className="flex items-center">
+                  <Users className="mr-3 w-6 h-6" />
+                  Browse Mentors
+                  <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </button>
+            </div>
+
+            {/* Enhanced Stats with Animations */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
               {[
-                { label: 'Expert Mentors', value: '50+', icon: Users },
-                { label: 'Success Rate', value: '95%', icon: Award },
-                { label: 'Hours Mentored', value: '10K+', icon: Clock },
-                { label: 'Average Rating', value: '4.9', icon: Star }
+                { label: 'Expert Mentors', value: '50+', icon: Users, color: 'from-blue-500 to-blue-600' },
+                { label: 'Success Rate', value: '95%', icon: Target, color: 'from-green-500 to-emerald-600' },
+                { label: 'Hours Mentored', value: '15K+', icon: Clock, color: 'from-purple-500 to-purple-600' },
+                { label: 'Avg. Rating', value: '4.9★', icon: Star, color: 'from-yellow-500 to-orange-600' }
               ].map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="inline-flex items-center justify-center w-12 h-12 bg-white dark:bg-gray-800 rounded-xl shadow-md mb-3">
-                    <stat.icon className="w-6 h-6 text-blue-600" />
+                <div key={index} className="group text-center">
+                  <div className="relative">
+                    <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r ${stat.color} rounded-2xl shadow-lg mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}>
+                      <stat.icon className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-300/30 to-purple-300/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
-                  <div className="text-3xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
-                  <div className="text-gray-600 dark:text-gray-400">{stat.label}</div>
+                  <div className="text-4xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    {stat.value}
+                  </div>
+                  <div className="text-gray-600 dark:text-gray-400 font-medium">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Trust Indicators */}
+            <div className="mt-12 flex flex-wrap justify-center items-center gap-8 opacity-60">
+              <div className="text-sm text-gray-500 dark:text-gray-400">Trusted by professionals from:</div>
+              {['Google', 'Microsoft', 'Netflix', 'Uber', 'OpenAI', 'Stripe'].map((company, index) => (
+                <div key={index} className="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                  {company}
                 </div>
               ))}
             </div>
           </div>
         </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-pulse" />
+          </div>
+        </div>
       </section>
 
-      {/* Mentorship Tracks */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      {/* Enhanced Mentorship Tracks */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800/50 dark:to-gray-900">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-              Choose Your <span className="text-blue-600">Learning Track</span>
+            <h2 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              Choose Your <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Success Path</span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Structured learning paths designed by industry experts to take you from beginner to professional
+              Structured learning paths designed by industry experts with guaranteed career outcomes
             </p>
           </div>
 
           <div ref={tracksRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            {mentorshipTracks.map((track) => (
+            {mentorshipTracks.map((track, index) => (
               <div
                 key={track.id}
-                className={`relative p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl ${
+                className={`group relative p-8 rounded-3xl border-2 cursor-pointer transition-all duration-500 transform hover:-translate-y-4 hover:shadow-2xl ${
                   selectedTrack === track.id 
-                    ? `border-blue-500 ${track.bgColor} shadow-lg` 
-                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-blue-300'
+                    ? `border-blue-500 ${track.bgColor} shadow-xl scale-105` 
+                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-blue-300 hover:scale-105'
                 }`}
                 onClick={() => setSelectedTrack(track.id)}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className={`inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r ${track.color} rounded-xl mb-4`}>
-                  <track.icon className="w-6 h-6 text-white" />
+                {/* Demand Badge */}
+                <div className="absolute -top-3 -right-3 px-3 py-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold rounded-full shadow-lg">
+                  {track.demand} Demand
                 </div>
                 
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                {/* Icon */}
+                <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r ${track.color} rounded-2xl mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}>
+                  <track.icon className="w-8 h-8 text-white" />
+                </div>
+                
+                {/* Content */}
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {track.title}
                 </h3>
                 
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-6 leading-relaxed">
                   {track.description}
                 </p>
 
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Duration:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">{track.duration}</span>
+                {/* Stats */}
+                <div className="space-y-3 mb-6">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-500 text-sm">Duration:</span>
+                    <span className="font-semibold text-gray-900 dark:text-white">{track.duration}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Level:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">{track.level}</span>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-500 text-sm">Level:</span>
+                    <span className="font-semibold text-gray-900 dark:text-white">{track.level}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-500 text-sm">Salary Boost:</span>
+                    <span className="font-bold text-green-600 dark:text-green-400">{track.salaryIncrease}</span>
                   </div>
                 </div>
 
-                <div className="mt-4 flex flex-wrap gap-1">
-                  {track.technologies.slice(0, 3).map((tech, index) => (
-                    <span key={index} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md">
+                {/* Technologies */}
+                <div className="flex flex-wrap gap-1 mb-6">
+                  {track.technologies.slice(0, 3).map((tech, techIndex) => (
+                    <span key={techIndex} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md font-medium">
                       {tech}
                     </span>
                   ))}
                   {track.technologies.length > 3 && (
-                    <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md">
+                    <span className="px-2 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs rounded-md font-medium">
                       +{track.technologies.length - 3}
                     </span>
                   )}
                 </div>
+
+                {/* Hover Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
             ))}
           </div>
 
-          {/* Filter Buttons */}
+          {/* Enhanced Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             <button
               onClick={() => setSelectedTrack('all')}
-              className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+              className={`px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 ${
                 selectedTrack === 'all'
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-md hover:shadow-lg'
               }`}
             >
-              All Mentors
+              All Mentors ({mentors.length})
             </button>
             {mentorshipTracks.map((track) => (
               <button
                 key={track.id}
                 onClick={() => setSelectedTrack(track.id)}
-                className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                className={`px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 ${
                   selectedTrack === track.id
-                    ? 'bg-blue-600 text-white shadow-lg'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-md hover:shadow-lg'
                 }`}
               >
-                {track.title}
+                {track.title} ({mentors.filter(m => m.track === track.id).length})
               </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Mentors Grid */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800/50">
+      {/* Enhanced Mentors Grid */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800/50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-              Meet Your <span className="text-blue-600">Expert Mentors</span>
+            <h2 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              Meet Your <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Expert Mentors</span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300">
-              Learn from industry professionals at top tech companies
+              Learn from the best. Our mentors are currently working at top tech companies.
             </p>
           </div>
 
           <div ref={mentorsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredMentors.map((mentor) => (
+            {filteredMentors.map((mentor, index) => (
               <div
                 key={mentor.id}
-                className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200 dark:border-gray-700"
+                className="group bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-purple-500 relative overflow-hidden"
                 onMouseEnter={() => setHoveredMentor(mentor.id)}
                 onMouseLeave={() => setHoveredMentor(null)}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                {/* Mentor Image - Blurred */}
-                <div className="relative mb-6">
-                  <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-r from-blue-400 to-purple-500 p-1">
-                    <div className="w-full h-full rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center relative overflow-hidden">
-                      {/* Blurred face placeholder */}
-                      <div className="w-full h-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 flex items-center justify-center">
-                        <div className="w-16 h-16 bg-white/30 dark:bg-black/30 rounded-full backdrop-blur-xl flex items-center justify-center">
-                          <Users className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                        </div>
-                      </div>
-                      {/* Blur overlay */}
-                      <div className="absolute inset-0 backdrop-blur-md bg-white/10 dark:bg-black/10"></div>
+                {/* Background Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                {/* Success Badge */}
+                <div className="absolute -top-3 -right-3 w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
+                  <span className="text-white text-xs font-bold">{mentor.successRate}</span>
+                </div>
+
+                {/* Online Status */}
+                <div className="absolute top-4 left-4 flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-xs text-green-600 dark:text-green-400 font-medium">Online</span>
+                </div>
+
+                {/* Mentor Avatar */}
+                <div className="relative mb-6 mt-8">
+                  <div className="w-28 h-28 mx-auto bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-xl overflow-hidden">
+                    <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-4xl font-bold text-gray-500 dark:text-gray-400">
+                      {mentor.name.split(' ').map(n => n[0]).join('')}
                     </div>
                   </div>
-                  
-                  {/* Online status */}
-                  <div className="absolute bottom-0 right-1/2 transform translate-x-8 w-6 h-6 bg-green-500 rounded-full border-4 border-white dark:border-gray-900"></div>
+                  <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center shadow-lg">
+                    <Star className="w-5 h-5 text-white" />
+                    <span className="absolute text-xs font-bold text-white">{mentor.rating}</span>
+                  </div>
                 </div>
 
                 {/* Mentor Info */}
                 <div className="text-center mb-6">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-                    {mentor.name}
-                  </h3>
-                  <p className="text-blue-600 dark:text-blue-400 font-medium mb-1">
-                    {mentor.title}
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    {mentor.company}
-                  </p>
-                </div>
-
-                {/* Rating and Stats */}
-                <div className="flex justify-center items-center gap-6 mb-6">
-                  <div className="flex items-center">
-                    <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
-                    <span className="font-semibold text-gray-900 dark:text-white">{mentor.rating}</span>
-                  </div>
-                  <div className="text-gray-600 dark:text-gray-400 text-sm">
-                    {mentor.students} students
-                  </div>
-                  <div className="text-gray-600 dark:text-gray-400 text-sm">
-                    {mentor.experience}
-                  </div>
-                </div>
-
-                {/* Specialties */}
-                <div className="mb-6">
-                  <div className="flex flex-wrap justify-center gap-2">
-                    {mentor.specialties.map((specialty, index) => (
-                      <span
-                        key={index}
-                        className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm rounded-full"
-                      >
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{mentor.name}</h3>
+                  <p className="text-blue-600 dark:text-blue-400 font-medium mb-2">{mentor.title}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{mentor.company}</p>
+                  
+                  <div className="flex justify-center space-x-2 mb-4">
+                    {mentor.specialties.slice(0, 2).map((specialty, i) => (
+                      <span key={i} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full font-medium">
                         {specialty}
                       </span>
                     ))}
+                    {mentor.specialties.length > 2 && (
+                      <span className="px-2 py-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs rounded-full font-medium">
+                        +{mentor.specialties.length - 2}
+                      </span>
+                    )}
                   </div>
+
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">{mentor.bio}</p>
                 </div>
 
-                {/* Bio */}
-                <p className="text-gray-600 dark:text-gray-300 text-sm text-center mb-6 line-clamp-3">
-                  {mentor.bio}
-                </p>
+                {/* Stats */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 text-center">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Experience</div>
+                    <div className="font-bold text-gray-900 dark:text-white">{mentor.experience}</div>
+                  </div>
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 text-center">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Students</div>
+                    <div className="font-bold text-gray-900 dark:text-white">{mentor.students}+</div>
+                  </div>
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 text-center">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Price</div>
+                    <div className="font-bold text-gray-900 dark:text-white">{mentor.price}</div>
+                  </div>
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 text-center">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Response</div>
+                    <div className="font-bold text-gray-900 dark:text-white">{mentor.responseTime}</div>
+                  </div>
+                </div>
 
                 {/* Achievements */}
                 <div className="mb-6">
-                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 text-center">
-                    Key Achievements
-                  </h4>
-                  <div className="space-y-1">
-                    {mentor.achievements.slice(0, 2).map((achievement, index) => (
-                      <div key={index} className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                        <Award className="w-3 h-3 text-yellow-500 mr-2 flex-shrink-0" />
-                        <span>{achievement}</span>
-                      </div>
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Notable Achievements:</h4>
+                  <ul className="space-y-2">
+                    {mentor.achievements.slice(0, 2).map((achievement, i) => (
+                      <li key={i} className="flex items-start">
+                        <div className="flex-shrink-0 mt-1">
+                          <Award className="w-4 h-4 text-yellow-500" />
+                        </div>
+                        <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">{achievement}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
 
-                {/* Price and Availability */}
-                <div className="flex justify-between items-center mb-6 text-sm">
-                  <div>
-                    <span className="text-gray-500">Price:</span>
-                    <span className="font-semibold text-gray-900 dark:text-white ml-1">{mentor.price}</span>
-                  </div>
-                  <div>
-                    <span className="text-gray-500">Available:</span>
-                    <span className="font-semibold text-gray-900 dark:text-white ml-1">{mentor.availability}</span>
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="space-y-3">
-                  <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-105">
-                    Book Session
-                  </Button>
-                  <Button variant="outline" className="w-full border-2 hover:bg-gray-50 dark:hover:bg-gray-800 py-3 rounded-xl">
-                    View Profile
-                    <ChevronRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </div>
+                {/* CTA Button */}
+                <button className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                  Book Session
+                </button>
               </div>
             ))}
+          </div>
+
+          {/* View All Button */}
+          <div className="text-center mt-12">
+            <button className="px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-semibold rounded-2xl border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-purple-500 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+              View All Mentors
+            </button>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      {/* Success Stories Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-100 to-white dark:from-gray-900 dark:to-gray-800">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-              How <span className="text-blue-600">Mentorship</span> Works
+            <h2 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              Our <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Success Stories</span>
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300">
-              Simple steps to accelerate your learning journey
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Real people, real results. See how mentorship transformed their careers.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                step: '01',
-                title: 'Choose Your Track',
-                description: 'Select the technology track that aligns with your career goals',
-                icon: BookOpen
+                name: "Sarah J.",
+                role: "Software Engineer at Google",
+                quote: "The mentorship program helped me land my dream job at Google within 6 months. My mentor's guidance on system design was invaluable.",
+                before: "$85K",
+                after: "$220K",
+                duration: "6 months",
+                image: "bg-gradient-to-r from-blue-500 to-purple-500"
               },
               {
-                step: '02',
-                title: 'Find Your Mentor',
-                description: 'Browse expert mentors and choose based on experience and specialization',
-                icon: Users
+                name: "Mike R.",
+                role: "DevOps Lead at Netflix",
+                quote: "I doubled my salary and got promoted to Lead DevOps Engineer thanks to my mentor's expertise in cloud architecture.",
+                before: "$110K",
+                after: "$250K",
+                duration: "8 months",
+                image: "bg-gradient-to-r from-green-500 to-emerald-500"
               },
               {
-                step: '03',
-                title: 'Book Sessions',
-                description: 'Schedule 1-on-1 sessions that fit your schedule and learning pace',
-                icon: Clock
-              },
-              {
-                step: '04',
-                title: 'Start Learning',
-                description: 'Get personalized guidance, code reviews, and career advice',
-                icon: Code
+                name: "Priya K.",
+                role: "ML Engineer at OpenAI",
+                quote: "From complete beginner to working on cutting-edge AI models. My mentor's patience and knowledge were game-changing.",
+                before: "$70K",
+                after: "$190K",
+                duration: "9 months",
+                image: "bg-gradient-to-r from-pink-500 to-rose-500"
               }
-            ].map((item, index) => (
-              <div key={index} className="text-center">
-                <div className="relative mb-6">
-                  <div className="w-20 h-20 mx-auto bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-                    <item.icon className="w-8 h-8 text-white" />
+            ].map((story, index) => (
+              <div key={index} className="group bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-200 dark:border-gray-700 relative overflow-hidden">
+                {/* Background Gradient */}
+                <div className={`absolute top-0 left-0 w-full h-1 ${story.image}`} />
+                
+                {/* Story Content */}
+                <div className="relative z-10">
+                  {/* Avatar */}
+                  <div className={`w-20 h-20 ${story.image} rounded-full flex items-center justify-center text-3xl font-bold text-white mb-6 mx-auto`}>
+                    {story.name.split(' ').map(n => n[0]).join('')}
                   </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center text-sm font-bold text-gray-900">
-                    {item.step}
+                  
+                  {/* Quote */}
+                  <blockquote className="text-lg text-gray-700 dark:text-gray-300 italic mb-6">
+                    "{story.quote}"
+                  </blockquote>
+                  
+                  {/* Name */}
+                  <div className="text-center mb-6">
+                    <h4 className="text-xl font-bold text-gray-900 dark:text-white">{story.name}</h4>
+                    <p className="text-blue-600 dark:text-blue-400">{story.role}</p>
+                  </div>
+                  
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Before</div>
+                      <div className="font-bold text-gray-900 dark:text-white line-through">{story.before}</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Duration</div>
+                      <div className="font-bold text-gray-900 dark:text-white">{story.duration}</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">After</div>
+                      <div className="font-bold text-green-600 dark:text-green-400">{story.after}</div>
+                    </div>
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {item.description}
-                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-600 to-purple-600">
+      {/* Final CTA Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to Accelerate Your Tech Career?
+          <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm font-semibold mb-8 shadow-lg">
+            <Zap className="w-5 h-5 mr-2" />
+            <span>Limited Spots Available</span>
+          </div>
+          
+          <h2 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            Ready to Transform Your <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Career?</span>
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Join thousands of developers who have transformed their careers with expert mentorship
+          
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-3xl mx-auto">
+            Join hundreds of professionals who accelerated their careers with 1-on-1 mentorship from top industry experts.
           </p>
+          
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+            <button className="px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
               Start Free Trial
-            </Button>
-            <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 text-lg font-semibold rounded-xl">
-              Learn More
-            </Button>
+            </button>
+            <button className="px-10 py-5 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-lg font-semibold rounded-2xl border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-purple-500 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+              Schedule Call
+            </button>
+          </div>
+          
+          <div className="mt-10 flex flex-wrap justify-center gap-6">
+            {[
+              { icon: Clock, text: 'Flexible Scheduling' },
+              { icon: Award, text: 'Guaranteed Results' },
+              { icon: Users, text: '1-on-1 Mentorship' },
+              { icon: Star, text: '4.9/5 Satisfaction' }
+            ].map((item, index) => (
+              <div key={index} className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
+                <item.icon className="w-5 h-5 text-blue-500 dark:text-purple-400" />
+                <span>{item.text}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <Footer />
+      {/* Footer */}
+      <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-900 text-gray-400">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div>
+              <h3 className="text-white text-lg font-semibold mb-4">Mentorship</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Success Stories</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Press</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-white text-lg font-semibold mb-4">Programs</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-white transition-colors">AI/ML Track</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Cloud & DevOps</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Mobile Development</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Web Development</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-white text-lg font-semibold mb-4">Resources</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Guides</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-white text-lg font-semibold mb-4">Legal</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Refund Policy</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center space-x-4 mb-4 md:mb-0">
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                <BookOpen className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-white font-semibold">TechMentor</span>
+            </div>
+            
+            <div className="flex space-x-6">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <span className="sr-only">Twitter</span>
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                </svg>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <span className="sr-only">GitHub</span>
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                </svg>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <span className="sr-only">LinkedIn</span>
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
+
+    <Footer/>
+    </>
   );
 };
 

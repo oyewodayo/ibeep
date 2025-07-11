@@ -4,13 +4,24 @@ import { ArrowRight, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentColorIndex, setCurrentColorIndex] = useState(0);
+
+  // Define the 5 colors you want to cycle through
+  const colorPalette = [
+    'from-blue-800 to-blue-600',    // Blue gradient
+    'from-purple-800 to-indigo-600', // Purple gradient
+    'from-green-800 to-teal-600',    // Green gradient
+    'from-red-800 to-orange-600',    // Red gradient
+    'from-yellow-600 to-amber-500'   // Yellow gradient
+  ];
 
   // Sample slides - replace with your actual images
   const slides = [
     {
       id: 0,
-     content: (
-        <div className="relative w-full bg-gradient-to-br from-blue-800 to-blue-600 h-full flex items-center justify-center overflow-hidden">
+      content: (
+        <div className={`relative w-full bg-gradient-to-br ${colorPalette[currentColorIndex]} h-full flex items-center justify-center overflow-hidden transition-colors duration-300`}>
+          {/* Rest of your slide 0 content remains the same */}
           {/* Animated background grid */}
           <div className="absolute inset-0 opacity-10">
             <svg className="w-full h-full" viewBox="0 0 400 400" preserveAspectRatio="none">
@@ -132,6 +143,7 @@ const Hero = () => {
       ),
       alt: "Animated software development visualization"
     },
+    // ... rest of your slides remain unchanged
     {
       id: 1,
       content: (
@@ -170,12 +182,31 @@ const Hero = () => {
 
   useEffect(() => {
     setIsVisible(true);
-    // Auto-advance slides every 5 seconds
-    const interval = setInterval(() => {
+    
+    // Color cycling interval (fast changes - every 200ms)
+    const colorInterval = setInterval(() => {
+      if (currentSlide === 0) { // Only cycle colors for slide 0
+        setCurrentColorIndex((prev) => (prev + 1) % colorPalette.length);
+      }
+    }, 200);
+    
+    // Slide changing interval (slower - every 10 seconds)
+    const slideInterval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 10000);
-    return () => clearInterval(interval);
-  }, []);
+    
+    return () => {
+      clearInterval(colorInterval);
+      clearInterval(slideInterval);
+    };
+  }, [currentSlide]); // Add currentSlide to dependencies
+
+  // Reset color index when slide changes back to 0
+  useEffect(() => {
+    if (currentSlide === 0) {
+      setCurrentColorIndex(0);
+    }
+  }, [currentSlide]);
 
   const scrollToServices = () => {
     document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
@@ -189,6 +220,7 @@ const Hero = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
+  // ... rest of your component remains the same
   return (
     <section className="min-h-screen flex items-center justify-center relative bg-white dark:bg-slate-900 overflow-hidden transition-colors duration-300">
       {/* Enhanced background pattern */}
@@ -203,7 +235,7 @@ const Hero = () => {
             }`}>
               <div className="mb-8 mt-5">
                 <span className="inline-block px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium mb-6">
-                  Software Development Excellence
+                  Software Development. Excellent Mentorship
                 </span>
               </div>
               
@@ -233,15 +265,15 @@ const Hero = () => {
                   className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-8 py-4 rounded-sm font-medium text-lg transition-all duration-300 transform hover:scale-105 group shadow-lg hover:shadow-xl"
                 >
                   Start Your Project
-                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                  <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </a>
                 
                 <a
                   href="#services"
                   className="inline-flex items-center gap-3 border-2 border-slate-300 dark:border-slate-600 hover:border-blue-600 dark:hover:border-blue-400 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 px-8 py-4 rounded-sm font-medium text-lg transition-all duration-300 transform hover:scale-105 group"
                 >
-                  Our Services
-                  <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-1" />
+                  Mentorship
+                  <ChevronRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-1" />
                 </a>
               </div>
             </div>
