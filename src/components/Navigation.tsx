@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { ChevronRight, ChevronRightCircle, ChevronRightCircleIcon, ChevronRightSquare, Menu, X } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -61,11 +61,20 @@ const Navigation = () => {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-sm font-medium transition-colors duration-200"
+                  className="text-slate-700 dark:text-slate-300 hover:bg-gray-200 hover:rounded-md hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-sm font-medium transition-colors duration-200"
                 >
                   {item.label}
                 </a>
+                
               ))}
+               <a
+                  key="pro"
+                  href="/start-a-project"
+                  className="text-slate-700 rounded-md flex place-items-center gap-3 bg-gray-800 text-white hover:bg-blue-700 hover:text-gray-200 dark:text-slate-300  dark:hover:text-gray-200 px-3 py-2 text-sm font-medium transition-colors duration-200"
+                >
+                  Start A Project
+                  <ChevronRight/>
+                </a>
             </div>
             <ThemeToggle />
           </div>

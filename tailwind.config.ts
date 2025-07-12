@@ -69,6 +69,15 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			keyframes: {
+				pulseOpacity: {
+				'0%, 100%': { opacity: '0.6' },
+				'50%': { opacity: '0.9' }, // Subtle pulse
+				},
+				slideAcross: {
+				'0%': { transform: 'translateX(-100vw) rotate(var(--random-rotate, 0deg))' }, // Starts off-screen left
+				'100%': { transform: 'translateX(200vw) rotate(var(--random-rotate, 0deg))' }, // Ends off-screen right
+				},
+				
 				'accordion-down': {
 					from: {
 						height: '0'

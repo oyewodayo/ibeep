@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MapPin, ArrowRight, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin, ArrowRight, Linkedin, Twitter, X } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -72,18 +72,19 @@ const Footer = () => {
             {/* Social links */}
             <div className="flex gap-4 pt-4">
               <a
-                href="#"
+                href="https:/linkedin.com/company/ibeephq"
                 className="w-10 h-10 bg-slate-800 dark:bg-slate-700 hover:bg-blue-600 rounded-full flex items-center justify-center transition-colors duration-300"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                 href="https:/x.com/ibeepnetworks"
                 className="w-10 h-10 bg-slate-800 dark:bg-slate-700 hover:bg-blue-600 rounded-full flex items-center justify-center transition-colors duration-300"
                 aria-label="Twitter"
               >
-                <Twitter className="w-5 h-5" />
+                <X className="w-5 h-5" />
+               
               </a>
             </div>
           </div>

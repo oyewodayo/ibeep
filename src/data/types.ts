@@ -1,3 +1,5 @@
+import { LucideIcon } from "lucide-react";
+
 // src/data/types.ts
 export interface MentorshipTrack {
   id: string;
@@ -45,4 +47,17 @@ export interface SuccessStory {
   after: string;
   duration: string;
   image: string;
+}
+
+export type ServiceIcon = 
+  | { type: 'lucide'; icon: LucideIcon }
+  | { type: 'image'; src: string; alt?: string };
+
+export interface Service {
+  icon: ServiceIcon;
+  title: string;
+  description: string;
+  gradient: string;
+  bgGradient: string;
+  iconType?: 'lucide' | 'image'; // Optional flag to distinguish types
 }

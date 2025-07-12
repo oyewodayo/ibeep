@@ -161,7 +161,7 @@ const WhoWeServe = () => {
           <p className="text-gray-300 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
             Join hundreds of successful companies who have transformed their business with our software solutions.
           </p>
-          <a href='#contact' className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl dark:shadow-blue-500/25">
+          <a href='/start-a-project' className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl dark:shadow-blue-500/25">
             Start Your Project Today
           </a>
         </div>

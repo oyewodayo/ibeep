@@ -53,7 +53,7 @@ const ContactSection = () => {
               className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white px-8 py-3 text-lg font-medium group transition-all duration-300"
             >
               <Calendar className="mr-2 w-5 h-5" />
-              Schedule a Technical Consultation
+              Schedule a Consultation
               <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </Button>
           </div>
