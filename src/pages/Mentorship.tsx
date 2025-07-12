@@ -3,9 +3,9 @@ import { Star, Clock, Users, Award, ChevronRight, Play, BookOpen, Code, Brain, C
 import { mentorshipTracks } from '../data/mentorshipTracks';
 import { mentors } from '../data/mentors';
 import { testimonials } from '../data/testimonials';
-import { successStories } from '../data/successStories';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import Hero from '@/components/mentorship/Hero';
 
 const Mentorship = () => {
   const [selectedTrack, setSelectedTrack] = useState('all');
@@ -64,156 +64,13 @@ const Mentorship = () => {
     <Navigation/>
     <div className="min-h-screen bg-white dark:bg-gray-900 overflow-hidden">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
-        {/* Animated Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-950/20">
-          {/* Floating Particles */}
-          {particles.map((particle) => (
-            <div
-              key={particle.id}
-              className="absolute rounded-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 animate-pulse"
-              style={{
-                left: `${particle.x}%`,
-                top: `${particle.y}%`,
-                width: `${particle.size}px`,
-                height: `${particle.size}px`,
-                animationDuration: `${particle.duration}s`,
-                animationDelay: `${particle.delay}s`,
-              }}
-            />
-          ))}
-          
-          {/* Gradient Orbs */}
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-purple-300/30 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-300/30 to-pink-300/30 rounded-full blur-3xl animate-pulse delay-1000" />
-          
-          {/* Interactive Mouse Follower */}
-          <div 
-            className="absolute w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-sm pointer-events-none transition-all duration-300"
-            style={{
-              left: `${mousePosition.x - 12}px`,
-              top: `${mousePosition.y - 12}px`,
-              opacity: 0.3,
-            }}
-          />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto z-10">
-          <div className={`text-center transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-            {/* Floating Success Badge */}
-            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-full text-sm font-semibold mb-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <Sparkles className="w-4 h-4 mr-2" />
-              <span className="animate-pulse">95% Success Rate</span>
-              <TrendingUp className="w-4 h-4 ml-2" />
-            </div>
-            
-            {/* Animated Icon */}
-            <div className="relative inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl mb-8 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-110 hover:rotate-6">
-              <BookOpen className="w-12 h-12 text-white animate-pulse" />
-              <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white" />
-              </div>
-            </div>
-            
-            {/* Main Heading with Typing Effect */}
-            <h1 className="text-6xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-              <span className="block">Transform Your</span>
-              <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-pulse">
-                Tech Career
-              </span>
-              <span className="block">in Months</span>
-            </h1>
-            
-            {/* Enhanced Subtitle */}
-            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-8 leading-relaxed">
-              Get <span className="font-semibold text-blue-600">1-on-1 mentorship</span> from industry experts at 
-              <span className="font-semibold text-purple-600"> FAANG companies</span>. 
-              Master AI/ML, Cloud, Mobile, and Web development with guaranteed results.
-            </p>
-
-            {/* Rotating Testimonials */}
-            <div className="mb-8 h-16 flex items-center justify-center">
-              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl px-6 py-3 shadow-lg max-w-md mx-auto transition-all duration-500 hover:scale-105">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
-                    <Star className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">
-                      "{testimonials[currentTestimonial].text}"
-                    </p>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">
-                      - {testimonials[currentTestimonial].name}, {testimonials[currentTestimonial].role}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Enhanced CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-              <button className="group relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-10 py-5 text-lg font-semibold rounded-2xl shadow-2xl hover:shadow-3xl transform hover:scale-110 transition-all duration-300 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-                <div className="relative flex items-center">
-                  <Play className="mr-3 w-6 h-6" />
-                  Start Free Trial
-                  <Sparkles className="ml-2 w-5 h-5 animate-pulse" />
-                </div>
-              </button>
-              
-              <button className="group px-10 py-5 text-lg font-semibold rounded-2xl border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-purple-500 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 hover:scale-105">
-                <div className="flex items-center">
-                  <Users className="mr-3 w-6 h-6" />
-                  Browse Mentors
-                  <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </button>
-            </div>
-
-            {/* Enhanced Stats with Animations */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-              {[
-                { label: 'Expert Mentors', value: '50+', icon: Users, color: 'from-blue-500 to-blue-600' },
-                { label: 'Success Rate', value: '95%', icon: Target, color: 'from-green-500 to-emerald-600' },
-                { label: 'Hours Mentored', value: '15K+', icon: Clock, color: 'from-purple-500 to-purple-600' },
-                { label: 'Avg. Rating', value: '4.9★', icon: Star, color: 'from-yellow-500 to-orange-600' }
-              ].map((stat, index) => (
-                <div key={index} className="group text-center">
-                  <div className="relative">
-                    <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r ${stat.color} rounded-2xl shadow-lg mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}>
-                      <stat.icon className="w-8 h-8 text-white" />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-300/30 to-purple-300/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                  <div className="text-4xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    {stat.value}
-                  </div>
-                  <div className="text-gray-600 dark:text-gray-400 font-medium">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Trust Indicators */}
-            <div className="mt-12 flex flex-wrap justify-center items-center gap-8 opacity-60">
-              <div className="text-sm text-gray-500 dark:text-gray-400">Trusted by professionals from:</div>
-              {['Google', 'Microsoft', 'Netflix', 'Uber', 'OpenAI', 'Stripe'].map((company, index) => (
-                <div key={index} className="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                  {company}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-pulse" />
-          </div>
-        </div>
-      </section>
+      <Hero 
+        testimonials={testimonials}
+        currentTestimonial={currentTestimonial}
+        isVisible={isVisible}
+        mousePosition={mousePosition}
+        particles={particles}
+      />
 
       {/* Enhanced Mentorship Tracks */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white dark:from-gray-800/50 dark:to-gray-900">
@@ -348,14 +205,14 @@ const Mentorship = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
                 {/* Success Badge */}
-                <div className="absolute -top-3 -right-3 w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
+                {/* <div className="absolute -top-3 -right-3 w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
                   <span className="text-white text-xs font-bold">{mentor.successRate}</span>
-                </div>
+                </div> */}
 
                 {/* Online Status */}
                 <div className="absolute top-4 left-4 flex items-center space-x-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                  <span className="text-xs text-green-600 dark:text-green-400 font-medium">Online</span>
+                  <span className="text-xs text-green-600 dark:text-green-400 font-medium"></span>
                 </div>
 
                 {/* Mentor Avatar */}
@@ -367,7 +224,7 @@ const Mentorship = () => {
                   </div>
                   <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center shadow-lg">
                     <Star className="w-5 h-5 text-white" />
-                    <span className="absolute text-xs font-bold text-white">{mentor.rating}</span>
+                    {/* <span className="absolute text-xs font-bold text-white">{mentor.rating}</span> */}
                   </div>
                 </div>
 
@@ -429,8 +286,8 @@ const Mentorship = () => {
                 </div>
 
                 {/* CTA Button */}
-                <button className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                  Book Session
+                <button className="w-full py-3 bg-gray-800 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                  Book your Spot
                 </button>
               </div>
             ))}
