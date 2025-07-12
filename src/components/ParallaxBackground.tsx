@@ -9,22 +9,23 @@ interface ParallaxBackgroundProps {
   enableMouseParallax?: boolean; // Toggle mouse parallax effect
   enableScrollParallax?: boolean; // Toggle scroll parallax effect
   baseHueRotation?: number; // Starting hue for color shifts
+  darkMode?: boolean; // Dark mode toggle
 }
 
 const ParallaxBackground = ({
   children,
   intensity = 1,
-  scrollMultiplier = 0.5, // Reduced default for a subtler effect
-  mouseSensitivity = 0.05, // Reduced default for a subtler effect
+  scrollMultiplier = 0.5,
+  mouseSensitivity = 0.05,
   enableMouseParallax = true,
   enableScrollParallax = true,
   baseHueRotation = 0,
+  darkMode = true, // Default to dark mode
 }: ParallaxBackgroundProps) => {
   const [scrollY, setScrollY] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Use useCallback to memoize event handlers
   const handleScroll = useCallback(() => {
     if (enableScrollParallax) {
       setScrollY(window.scrollY * scrollMultiplier);
@@ -37,8 +38,8 @@ const ParallaxBackground = ({
       const { offsetWidth, offsetHeight } = containerRef.current;
 
       setMousePosition({
-        x: ((clientX - offsetWidth / 2) / offsetWidth) * 2, // Normalize to -1 to 1
-        y: ((clientY - offsetHeight / 2) / offsetHeight) * 2, // Normalize to -1 to 1
+        x: ((clientX - offsetWidth / 2) / offsetWidth) * 2,
+        y: ((clientY - offsetHeight / 2) / offsetHeight) * 2,
       });
     }
   }, [enableMouseParallax]);
@@ -47,28 +48,20 @@ const ParallaxBackground = ({
     let animationFrameId: number;
 
     const animate = () => {
-      // Update state if needed based on `scrollY` or `mousePosition`
-      // For now, these are updated directly by event listeners, but for more complex
-      // animations, you might put logic here.
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    // Initial call to start the animation loop
     animationFrameId = requestAnimationFrame(animate);
-
-    // Attach event listeners
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     return () => {
-      // Clean up event listeners and animation frame
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [handleScroll, handleMouseMove]); // Depend on memoized handlers
+  }, [handleScroll, handleMouseMove]);
 
-  // Helper to adjust intensity for individual layers
   const getAdjustedTransform = (
     scrollFactor: number,
     mouseFactor: number,
@@ -86,22 +79,40 @@ const ParallaxBackground = ({
     };
   };
 
+  // Dark mode color adjustments
+  const bgGradient = darkMode
+    ? `linear-gradient(
+        ${135 + scrollY * 0.01}deg,
+        hsl(${baseHueRotation + scrollY * 0.02}, 30%, 10%) 0%,
+        hsl(${baseHueRotation + 180 + scrollY * 0.03}, 30%, 15%) 100%
+      )`
+    : `linear-gradient(
+        ${135 + scrollY * 0.01}deg,
+        hsl(${baseHueRotation + scrollY * 0.02}, 70%, 85%) 0%,
+        hsl(${baseHueRotation + 180 + scrollY * 0.03}, 70%, 90%) 100%
+      )`;
+
+  const shapeColor = darkMode ? 'rgba(100, 150, 255, 0.1)' : 'rgba(0, 0, 255, 0.15)';
+  const shapeColor2 = darkMode ? 'rgba(150, 100, 255, 0.1)' : 'rgba(128, 0, 128, 0.15)';
+  const shapeColor3 = darkMode ? 'rgba(100, 255, 150, 0.1)' : 'rgba(0, 128, 0, 0.15)';
+  const particleColor = darkMode ? 'rgba(0, 255, 255, 0.3)' : 'rgba(0, 200, 200, 0.5)';
+  const gridColor = darkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.1)';
+  const vignetteColor = darkMode 
+    ? `rgba(0, 0, 0, ${0.3 + Math.sin(scrollY * 0.004) * 0.1})` 
+    : `rgba(0, 0, 0, ${0.2 + Math.sin(scrollY * 0.004) * 0.08})`;
+
   return (
     <div ref={containerRef} className="absolute inset-0 will-change-transform overflow-hidden">
-      {/* Layer 1: Subtle Gradient Background (most distant) */}
+      {/* Layer 1: Dark Gradient Background */}
       <div
         className="absolute inset-0 transition-all duration-300 ease-out"
         style={{
-          background: `linear-gradient(
-            ${135 + scrollY * 0.01}deg,
-            hsl(${baseHueRotation + scrollY * 0.02}, 70%, 85%) 0%,
-            hsl(${baseHueRotation + 180 + scrollY * 0.03}, 70%, 90%) 100%
-          )`,
-          ...getAdjustedTransform(0.1, 0.05), // Very slight movement
+          background: bgGradient,
+          ...getAdjustedTransform(0.1, 0.05),
         }}
       />
 
-      {/* Layer 2: Floating Geometric Shapes (responsive and interactive) */}
+      {/* Layer 2: Floating Geometric Shapes */}
       <div
         className="absolute inset-0"
         style={{
@@ -109,37 +120,41 @@ const ParallaxBackground = ({
         }}
       >
         <div
-          className="absolute top-[10%] left-[15%] w-48 h-48 bg-blue-500 rounded-full mix-blend-multiply opacity-15 md:w-64 md:h-64 lg:w-80 lg:h-80 transition-all duration-300 ease-out"
+          className="absolute top-[10%] left-[15%] w-48 h-48 rounded-full mix-blend-multiply opacity-15 md:w-64 md:h-64 lg:w-80 lg:h-80 transition-all duration-300 ease-out"
           style={{
+            backgroundColor: shapeColor,
             transform: `rotate(${scrollY * 0.05}deg) scale(${1 + Math.sin(scrollY * 0.005) * 0.05})`,
           }}
         />
         <div
-          className="absolute bottom-[20%] right-[10%] w-32 h-32 bg-purple-500 rounded-lg mix-blend-multiply opacity-15 md:w-48 md:h-48 lg:w-60 lg:h-60 transition-all duration-300 ease-out"
+          className="absolute bottom-[20%] right-[10%] w-32 h-32 rounded-lg mix-blend-multiply opacity-15 md:w-48 md:h-48 lg:w-60 lg:h-60 transition-all duration-300 ease-out"
           style={{
+            backgroundColor: shapeColor2,
             transform: `rotate(${-scrollY * 0.07}deg) scale(${1 + Math.cos(scrollY * 0.004) * 0.05})`,
           }}
         />
         <div
-          className="absolute top-[40%] right-[30%] w-24 h-24 bg-green-500 rounded-3xl mix-blend-multiply opacity-15 md:w-36 md:h-36 lg:w-48 lg:h-48 transition-all duration-300 ease-out"
+          className="absolute top-[40%] right-[30%] w-24 h-24 rounded-3xl mix-blend-multiply opacity-15 md:w-36 md:h-36 lg:w-48 lg:h-48 transition-all duration-300 ease-out"
           style={{
+            backgroundColor: shapeColor3,
             transform: `rotate(${scrollY * 0.03}deg) scale(${1 + Math.sin(scrollY * 0.006) * 0.05})`,
           }}
         />
       </div>
 
-      {/* Layer 3: Animated Grid/Dot Pattern (subtle texture) */}
+      {/* Layer 3: Subtle Grid Pattern */}
       <div
-        className="absolute inset-0 opacity-10"
+        className="absolute inset-0"
         style={{
           backgroundSize: '40px 40px',
-          backgroundImage: `radial-gradient(circle, #000000 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(circle, ${gridColor} 1px, transparent 1px)`,
           ...getAdjustedTransform(0.3, 0.15),
           filter: `hue-rotate(${scrollY * 0.05}deg)`,
+          opacity: 0.5,
         }}
       />
 
-      {/* Layer 4: Interactive Particles (more pronounced mouse interaction) */}
+      {/* Layer 4: Interactive Particles */}
       <div
         className="absolute inset-0 pointer-events-none overflow-hidden"
         style={{
@@ -149,38 +164,39 @@ const ParallaxBackground = ({
         {[...Array(30)].map((_, i) => (
           <div
             key={`particle-${i}`}
-            className="absolute w-1.5 h-1.5 bg-cyan-400 rounded-full opacity-50"
+            className="absolute w-1.5 h-1.5 rounded-full opacity-50"
             style={{
               left: `${(i * 3.33) % 100}%`,
               top: `${(i * 5.55) % 100}%`,
+              backgroundColor: particleColor,
               transform: `translate(
                 ${Math.sin(scrollY * 0.01 + i) * 15}px,
                 ${Math.cos(scrollY * 0.01 + i) * 15}px
               ) scale(${1 + Math.sin(scrollY * 0.008 + i) * 0.2})`,
               filter: `blur(${Math.abs(Math.sin(scrollY * 0.005 + i)) * 2}px)`,
-              transition: 'transform 0.1s ease-out', // Smoother mouse reaction
+              transition: 'transform 0.1s ease-out',
             }}
           />
         ))}
       </div>
 
-      {/* Layer 5: Dynamic Vignette/Overlay (adjusts with scroll and mouse) */}
+      {/* Layer 5: Dynamic Vignette */}
       <div
         className="absolute inset-0 transition-all duration-300 ease-out"
         style={{
           background: `radial-gradient(
             circle at ${50 + mousePosition.x * 2}% ${50 + mousePosition.y * 2}%,
             transparent 0%,
-            rgba(0, 0, 0, ${0.1 + Math.sin(scrollY * 0.003) * 0.05}) 70%,
-            rgba(0, 0, 0, ${0.2 + Math.sin(scrollY * 0.004) * 0.08}) 100%
+            rgba(0, 0, 0, ${0.2 + Math.sin(scrollY * 0.003) * 0.1}) 70%,
+            ${vignetteColor} 100%
           )`,
           opacity: 0.7,
-          mixBlendMode: 'overlay', // Creates interesting light effects
+          mixBlendMode: 'overlay',
           filter: `brightness(${1 + Math.abs(mousePosition.x) * 0.05})`,
         }}
       />
 
-      {/* Children content with z-index to ensure it's above the parallax layers */}
+      {/* Children content */}
       {children && (
         <div className="relative z-10 h-full w-full pointer-events-auto">
           {children}
